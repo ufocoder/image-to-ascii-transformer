@@ -1,5 +1,4 @@
-import { Show, createSignal, createEffect } from "solid-js";
-
+import { Show, createSignal } from "solid-js";
 
 import Canvas from "./components/Canvas";
 import Layout from "./components/Layout";
