@@ -12,11 +12,17 @@ export default function App() {
 
   return (
     <Layout>
-      <UploadForm onLoad={setImage} />
-      <Show when={image()}>
-        <SettingsForm settings={settings} onChange={setSettings} />
-        <Canvas settings={settings} image={image} />
-      </Show>
+      <div class="Layout--sidebar">
+        <UploadForm onLoad={setImage} />
+        <Show when={image()}>
+          <SettingsForm settings={settings} onChange={setSettings} />
+        </Show>
+      </div>
+      <div class="Layout--main">
+        <Show when={image()}>
+          <Canvas settings={settings} image={image} />
+        </Show>
+      </div>
     </Layout>
   );
 }
