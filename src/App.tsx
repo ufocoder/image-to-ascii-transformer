@@ -2,7 +2,7 @@ import { Show, createSignal } from "solid-js";
 
 import Canvas from "./components/Canvas";
 import Layout from "./components/Layout";
-import SettingsForm from "./components/SettingsForm";
+import SettingsForm from "./components/Settings";
 import UploadForm from "./components/Upload";
 import { defaultSettings } from "./constants";
 

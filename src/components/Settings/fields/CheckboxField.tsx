@@ -1,9 +1,7 @@
 import { SettingDescriptor } from "../descriptors";
 
-interface CheckboxSettingFieldProps {
-    title: string;
+interface CheckboxSettingFieldProps extends SettingDescriptor {
     value: boolean;
-    name: keyof Settings;
     onChange: (value: boolean) => void;
 }
 
@@ -19,7 +17,7 @@ export default function CheckboxSettingField(props: CheckboxSettingFieldProps) {
                 id={`settings-${name}`} 
                 type='checkbox'
                 checked={value}
-                onChange={() => onChange(!value)} />
-            </div>
+                onChange={e => onChange((e.target as HTMLInputElement).checked)} />
+        </div>
     )
 }

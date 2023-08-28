@@ -4,7 +4,8 @@ import { settingsDescriptors } from "./descriptors";
 import CheckboxSettingField from "./fields/CheckboxField";
 import InputSettingField from "./fields/InputField";
 
-type HandlerCreator = (fieldName: keyof Settings) => (fieldValue: any) => void;
+type FieldValue = string | number | boolean;
+type HandlerCreator = (fieldName: keyof Settings) => (fieldValue: FieldValue) => void;
 
 interface SettingsFormProps {
     settings: Accessor<Settings>;
@@ -12,8 +13,7 @@ interface SettingsFormProps {
 }
 
 export default function SettingsForm(props: SettingsFormProps) {
-    const createChangeHandler: HandlerCreator = (fieldName) => (value: any) => {
-        console.log('changed value', value)
+    const createChangeHandler: HandlerCreator = (fieldName) => (value: FieldValue) => {
         return props.onChange(prevSettings => ({
             ...prevSettings,
             [fieldName]: value
@@ -24,10 +24,6 @@ export default function SettingsForm(props: SettingsFormProps) {
         props.onChange(defaultSettings);
     }
 
-    const values = props.settings()
-
-    console.log('SettingsForm', values)
-
     return (
         <form>
             <For each={settingsDescriptors}>{({ name, type, title }) => {
@@ -35,8 +31,9 @@ export default function SettingsForm(props: SettingsFormProps) {
                     return (
                         <CheckboxSettingField 
                             onChange={createChangeHandler(name)}
-                            value={values[name] as boolean}
+                            value={props.settings()[name] as boolean}
                             title={title} 
+                            type={type} 
                             name={name} />
                     );
                 }
@@ -44,7 +41,7 @@ export default function SettingsForm(props: SettingsFormProps) {
                 return (
                     <InputSettingField 
                         onChange={createChangeHandler(name)}
-                        value={values[name] as string}
+                        value={props.settings()[name] as string}
                         title={title}
                         type={type} 
                         name={name} 

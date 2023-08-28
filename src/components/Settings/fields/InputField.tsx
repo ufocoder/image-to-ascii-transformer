@@ -1,10 +1,7 @@
-import { SettingDescriptor, SettingType } from "../descriptors";
+import { SettingDescriptor } from "../descriptors";
 
-interface InputSettingFieldProps {
-    title: string;
+interface InputSettingFieldProps extends SettingDescriptor {
     value: string;
-    type: SettingType
-    name: keyof Settings;
     onChange: (value: string) => void;
 }
 
@@ -22,6 +19,6 @@ export default function InputSettingField(props: InputSettingFieldProps) {
                 onInput={e => onChange((e.target as HTMLInputElement).value)}
                 onChange={e => onChange((e.target as HTMLInputElement).value)}
                 value={value} />
-            </div>
+        </div>
     )
 }
