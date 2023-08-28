@@ -4,5 +4,5 @@ export const defaultSettings = {
     colored: false,
     backgroundColor: '#FFF',
     textColor: '#000',
-    textSize: 14
+    textSize: 8
 }

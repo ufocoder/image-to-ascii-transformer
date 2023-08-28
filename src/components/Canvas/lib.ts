@@ -9,7 +9,7 @@ export const extractImageData = (element: HTMLImageElement): Uint8ClampedArray =
     canvas.width = width;
 
     context!.drawImage(element, 0, 0);
-    
+
     return context!.getImageData(0, 0, width, height).data;
 }
 
@@ -42,6 +42,7 @@ export const getAlphabetLetter = (averageColor: number, alphabet: string) => {
 
 const mergePixels = (
     imageData: Uint8ClampedArray,
+    width: number,
     x: number, 
     y: number, 
     square: number
@@ -51,21 +52,15 @@ const mergePixels = (
     let b = 0;
     let a = 0;
 
-    console.log(imageData)
-
     for (let i = x; i < x + square; i++) {
         for (let j = y; j < y + square; j++) {
-            const index = (i + j) * 4;
+            const index = (i + j * width) * 4;
 
             r = Math.max(imageData[index + 0]);
             g = Math.max(imageData[index + 1]);
             b = Math.max(imageData[index + 2]);
             a = Math.max(imageData[index + 3]);
         }
-    }
-
-    if (b > 0) {
-        console.log(r, g, b);
     }
 
     r /= square**2;
@@ -102,15 +97,14 @@ export const drawFrame = (
     context.textBaseline = "middle";
 
     // draw letters
-    for (let i = 0; i < width; i++) {
-        for (let j = 0; j < height; j++) {
+    const step = 1;
 
-            const x = i;
-            const y = j * width;
-
-            const averagePixelColor = getPixelAverageGrayscaleColor(imageData, x, y);
-            const currentPixelColor = getPixelHexColor(imageData, x, y);
-            const letter = getAlphabetLetter(averagePixelColor, settings.alphabet);
+    for (let x = 0; x < width; x += step) {
+        for (let y = 0; y < height; y += step) {
+            const { r, g, b } =  mergePixels(imageData, width, x, y, step);
+            const averageColor = (r + g + b) / 3;
+            const currentPixelColor = '#' + r.toString(16) + g.toString(16) + b.toString(16);
+            const letter = getAlphabetLetter(averageColor, settings.alphabet);
 
             context.fillStyle = settings.colored 
                 ? currentPixelColor
@@ -118,9 +112,11 @@ export const drawFrame = (
 
             context.fillText(
                 letter,
-                i * settings.textSize, 
-                j * settings.textSize,
+                x / step * settings.textSize, 
+                y / step * settings.textSize,
             );
+
         }
     }
+
 }
