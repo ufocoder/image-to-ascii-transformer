@@ -1,3 +1,4 @@
+import { For } from "solid-js";
 type ImagePreset = {
     title: string;
     src: string;
@@ -22,23 +23,23 @@ interface UploadPresetProps {
     onLoad: (image: HTMLImageElement) => void
 }
 
-export default function UploadPreset({ onLoad }: UploadPresetProps) {
+export default function UploadPreset(props: UploadPresetProps) {
     const selectPreset = (src: string) => {
         const imageElement = new Image();
 
-        imageElement.onload = () => onLoad(imageElement);
+        imageElement.onload = () => props.onLoad(imageElement);
         imageElement.src = src;
     };
 
     return (
         <ul>
-            {ImagePresets.map(({ title, src}) => (
+            <For each={ImagePresets}>{({ title, src}) => (
                 <li>
                     <a href="#" onClick={() => selectPreset(src)}>
                         {title}
                     </a>
                 </li>
-            ))}
+            )}</For>
         </ul>
     )
 }

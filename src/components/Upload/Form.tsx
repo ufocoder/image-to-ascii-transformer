@@ -23,13 +23,13 @@ interface UploadFormProps {
     onLoad: LoadCallback
 }
 
-export default function UploadForm({ onLoad }: UploadFormProps) {
+export default function UploadForm(props: UploadFormProps) {
     const handleFileChange = (e: Event) => {
         const target = e.target as HTMLInputElement;
         if (!target.files) {
             return
         }
-        getImageFileData(target.files[0], onLoad)
+        getImageFileData(target.files[0], props.onLoad)
     }
 
     return (

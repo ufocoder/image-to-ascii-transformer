@@ -5,14 +5,14 @@ interface UploadProps {
     onLoad: (image: HTMLImageElement) => void
 }
 
-export default function Upload({ onLoad }: UploadProps) {
+export default function Upload(props: UploadProps) {
     return (
         <div>
             <h3>Upload image</h3>
-            <UploadForm onLoad={onLoad} />
+            <UploadForm onLoad={props.onLoad} />
 
             <h3>Image presets</h3>
-            <UploadPreset onLoad={onLoad} />
+            <UploadPreset onLoad={props.onLoad} />
         </div>
     );
 }
