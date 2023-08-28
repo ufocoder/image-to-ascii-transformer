@@ -1,6 +1,8 @@
 ASCII
 -----
 
+![Build](https://github.com/ufocoder/image-to-ascii-transformer/actions/workflows/build.yml/badge.svg)
+
 # Roadmap
 
 ## Stage: Base 
