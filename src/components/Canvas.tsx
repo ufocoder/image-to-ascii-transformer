@@ -23,7 +23,7 @@ const getAlphabetLetter = (averageColor: number, alphabet: string) => {
 }
 
 
-export default function Canvas({ image, settings }: CanvasProps) {
+export default function Canvas(props: CanvasProps) {
     const [pixels, setPixels] = createSignal<Uint8ClampedArray>();
 
     let canvas: HTMLCanvasElement | undefined;
@@ -40,7 +40,7 @@ export default function Canvas({ image, settings }: CanvasProps) {
     // 4. draw
     const prepare = () => {
 
-        if (!canvas || !image()) {
+        if (!canvas || !props.image()) {
             return
         }
           
@@ -50,14 +50,14 @@ export default function Canvas({ image, settings }: CanvasProps) {
             return
         }
  
-        const ratio  = settings().textSize;
-        const height = image().height;
-        const width = image().width;
+        const ratio  = props.settings().textSize;
+        const height = props.image().height;
+        const width = props.image().width;
 
         canvas.height = height;
         canvas.width = width;
 
-        context.drawImage(image(), 0, 0);
+        context.drawImage(props.image(), 0, 0);
         
         const imageData = context.getImageData(0, 0, width, height).data;
 
@@ -76,7 +76,7 @@ export default function Canvas({ image, settings }: CanvasProps) {
         // original size: width, heigth
         // original pixel
 
-        if (!canvas || !image() || !pixels()) {
+        if (!canvas || !props.image() || !pixels()) {
             return
           }
           
@@ -87,19 +87,19 @@ export default function Canvas({ image, settings }: CanvasProps) {
           }
 
         // fill background
-        const ratio  = settings().textSize;
-        const height = image().height;
-        const width = image().width;
+        const ratio  = props.settings().textSize;
+        const height = props.image().height;
+        const width = props.image().width;
 
         canvas.height = height * ratio;
         canvas.width = width * ratio;
 
-        context.fillStyle = settings().backgroundColor;
+        context.fillStyle = props.settings().backgroundColor;
         context.fillRect(0, 0, canvas.width, canvas.height);
 
         // prepare text style
-        context.fillStyle = settings().textColor;
-        context.font = settings().textSize + 'px';
+        context.fillStyle = props.settings().textColor;
+        context.font = props.settings().textSize + 'px';
         context.textAlign = "center";
         context.textBaseline = "middle";
 
@@ -112,11 +112,11 @@ export default function Canvas({ image, settings }: CanvasProps) {
                 const y = j * width;
 
                 const averageColor = getAverageColor(pixels(), x, y);
-                const letter = getAlphabetLetter(averageColor, settings().alphabet);
+                const letter = getAlphabetLetter(averageColor, props.settings().alphabet);
 
-                context.fillStyle = settings().textColor;
+                context.fillStyle = props.settings().textColor;
 
-                const size = settings().textSize;
+                const size = props.settings().textSize;
 
                 context.fillText(
                     letter,
