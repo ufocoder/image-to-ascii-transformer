@@ -9,32 +9,32 @@ interface CanvasProps {
 // @NOTICE: check JSX.EventHandler<HTMLInputElement, InputEvent>
 type HandlerCreator = <T extends Event>(fieldName: keyof Settings) => (e: T) => void;
 
-export default function SettingsForm({ settings, onChange }: CanvasProps) {
+export default function SettingsForm(props: CanvasProps) {
     const createHandler: HandlerCreator = (fieldName) => (e) =>
-        onChange(prevSettings => ({
+        props.onChange(prevSettings => ({
             ...prevSettings,
             [fieldName]: (e.target as HTMLInputElement).value // @TODO: improve typings
         }));
 
     const handleResetButtonClick = () => {
-        onChange(defaultSettings);
+        props.onChange(defaultSettings);
     }
 
     return (
         <form>
             <div class="form-group">
                 <label for="settings-backgroundColor">background color</label>
-                <input id="settings-backgroundColor" type="color" onInput={createHandler('backgroundColor')} onChange={createHandler('backgroundColor')} value={settings.backgroundColor} />
+                <input id="settings-backgroundColor" type="color" onInput={createHandler('backgroundColor')} onChange={createHandler('backgroundColor')} value={props.settings.backgroundColor} />
             </div>
 
             <div class="form-group">
                 <label for="settings-textColor">text color</label>
-                <input id="settings-textColor" type="color" onInput={createHandler('textColor')} onChange={createHandler('textColor')} value={settings.textColor} />
+                <input id="settings-textColor" type="color" onInput={createHandler('textColor')} onChange={createHandler('textColor')} value={props.settings.textColor} />
             </div>
 
             <div class="form-group">
                 <label for="settings-textSize">text size</label>
-                <input id="settings-textSize" class="form-control" type="number" onChange={createHandler('textSize')} value={settings.textSize} />
+                <input id="settings-textSize" class="form-control" type="number" onChange={createHandler('textSize')} value={props.settings.textSize} />
             </div>
 
             <button class="btn" type="button" onClick={handleResetButtonClick}>Reset</button>
