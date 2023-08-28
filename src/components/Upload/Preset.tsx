@@ -1,4 +1,5 @@
 import { For } from "solid-js";
+
 type ImagePreset = {
     title: string;
     src: string;
@@ -7,15 +8,15 @@ type ImagePreset = {
 const ImagePresets: ImagePreset[] = [
     {
         title: 'Cat 48x48',
-        src: '/cat-48.png',
+        src: import.meta.env.BASE_URL + '/cat-48.png',
     },
     {
         title: 'Cat 256x256',
-        src: '/cat-256.png'
+        src: import.meta.env.BASE_URL + '/cat-256.png'
     },
     {
         title: 'Animated hourse',
-        src: '/animated'
+        src: import.meta.env.BASE_URL + '/animated.gif'
     }  
 ];
 
