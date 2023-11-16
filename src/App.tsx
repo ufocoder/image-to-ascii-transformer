@@ -12,13 +12,13 @@ export default function App() {
 
   return (
     <Layout>
-      <div class="Layout--sidebar">
+      <div class="Layout-sidebar">
         <UploadForm onLoad={setImage} />
         <Show when={image()}>
           <SettingsForm settings={settings} onChange={setSettings} />
         </Show>
       </div>
-      <div class="Layout--main">
+      <div class="Layout-main">
         <Show when={image()}>
           <Canvas settings={settings} image={image} />
         </Show>
