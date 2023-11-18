@@ -2,7 +2,7 @@ import { Accessor, createEffect, createSignal } from "solid-js";
 import { drawFrame, extractImageData } from "./lib";
 
 interface CanvasProps {
-  image: Accessor<HTMLImageElement>;
+  image: Accessor<HTMLImageElement | undefined>;
   settings: Accessor<Settings>;
 }
 
@@ -27,8 +27,8 @@ export default function Canvas(props: CanvasProps) {
     }
 
     const ratio = props.settings().textSize;
-    const height = props.image().height;
-    const width = props.image().width;
+    const height = props.image()?.height ?? 0;
+    const width = props.image()?.width ?? 0;
 
     canvas.height = height * ratio;
     canvas.width = width * ratio;

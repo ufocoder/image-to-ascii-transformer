@@ -4,7 +4,7 @@ import { TargetType } from "../../types/targetType";
 
 interface TargetProps {
   target: Accessor<TargetType>;
-  image: Accessor<HTMLImageElement>;
+  image: Accessor<HTMLImageElement | undefined>;
   settings: Accessor<Settings>;
 }
 
