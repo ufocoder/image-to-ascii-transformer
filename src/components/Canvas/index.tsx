@@ -2,57 +2,54 @@ import { Accessor, createEffect, createSignal } from "solid-js";
 import { drawFrame, extractImageData } from "./lib";
 
 interface CanvasProps {
-    image: Accessor<HTMLImageElement>;
-    settings: Accessor<Settings>;
+  image: Accessor<HTMLImageElement>;
+  settings: Accessor<Settings>;
 }
 
 export default function Canvas(props: CanvasProps) {
-    const [pixels, setPixels] = createSignal<Uint8ClampedArray>();
+  const [pixels, setPixels] = createSignal<Uint8ClampedArray>();
 
-    let canvas: HTMLCanvasElement | undefined;
- 
-    createEffect(() => {
-        const element = props.image();
+  let canvas: HTMLCanvasElement | undefined;
 
-        if (!element) {
-            return
-        }
+  createEffect(() => {
+    const element = props.image();
 
-        setPixels(extractImageData(element));
-    });
+    if (!element) {
+      return;
+    }
 
-    createEffect(() => {
-        if (!canvas) {
-            return;
-        }
+    setPixels(extractImageData(element));
+  });
 
-        const ratio  = props.settings().textSize;
-        const height = props.image().height;
-        const width = props.image().width;
+  createEffect(() => {
+    if (!canvas) {
+      return;
+    }
 
-        canvas.height = height * ratio;
-        canvas.width = width * ratio;
-    });
+    const ratio = props.settings().textSize;
+    const height = props.image().height;
+    const width = props.image().width;
 
-    createEffect(() => {
-        const element = props.image();
-        const imageData = pixels();
+    canvas.height = height * ratio;
+    canvas.width = width * ratio;
+  });
 
-        if (!canvas || !element || !imageData) {
-            return;
-        }
-          
-        const context = canvas.getContext("2d");
+  createEffect(() => {
+    const element = props.image();
+    const imageData = pixels();
 
-        if (!context) {
-            return;
-        }
+    if (!canvas || !element || !imageData) {
+      return;
+    }
 
-        drawFrame(context, props.settings(), element, imageData);
-    });
+    const context = canvas.getContext("2d");
 
-    return (
-        <canvas ref={canvas} width="256" height="256" />
-    );
+    if (!context) {
+      return;
+    }
+
+    drawFrame(context, props.settings(), element, imageData);
+  });
+
+  return <canvas ref={canvas} width="256" height="256" />;
 }
-  
