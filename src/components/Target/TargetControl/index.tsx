@@ -1,6 +1,6 @@
 import { Setter } from "solid-js";
 import { JSX } from "solid-js/jsx-runtime";
-import { TargetType } from "../../../types/targetType";
+import { TargetType } from "../../../types/targetTypes";
 
 interface TargetControlProps {
   label: string;

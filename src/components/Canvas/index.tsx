@@ -1,44 +1,30 @@
-import { Accessor, createEffect, createSignal } from "solid-js";
-import { drawFrame, extractImageData } from "./lib";
+import { Accessor, createEffect } from "solid-js";
+import { drawLetters } from "./lib";
+import { IColoredLetter } from "../../types/targetTypes";
 
 interface CanvasProps {
-  image: Accessor<HTMLImageElement | undefined>;
+  letters: Accessor<IColoredLetter[][]>;
   settings: Accessor<Settings>;
 }
 
 export default function Canvas(props: CanvasProps) {
-  const [pixels, setPixels] = createSignal<Uint8ClampedArray>();
-
   let canvas: HTMLCanvasElement | undefined;
 
   createEffect(() => {
-    const element = props.image();
-
-    if (!element) {
-      return;
-    }
-
-    setPixels(extractImageData(element));
-  });
-
-  createEffect(() => {
-    if (!canvas) {
+    if (!canvas || !props.letters().length) {
       return;
     }
 
     const ratio = props.settings().textSize;
-    const height = props.image()?.height ?? 0;
-    const width = props.image()?.width ?? 0;
+    const height = props.letters()[0].length;
+    const width = props.letters().length;
 
     canvas.height = height * ratio;
     canvas.width = width * ratio;
   });
 
   createEffect(() => {
-    const element = props.image();
-    const imageData = pixels();
-
-    if (!canvas || !element || !imageData) {
+    if (!canvas || !props.letters().length) {
       return;
     }
 
@@ -48,7 +34,7 @@ export default function Canvas(props: CanvasProps) {
       return;
     }
 
-    drawFrame(context, props.settings(), element, imageData);
+    drawLetters(context, props.settings(), props.letters());
   });
 
   return <canvas ref={canvas} width="256" height="256" />;

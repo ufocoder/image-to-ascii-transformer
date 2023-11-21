@@ -6,7 +6,7 @@ import UploadForm from "./components/Upload";
 import { defaultSettings } from "./constants";
 import TargetControls from "./components/Target/TargetControls";
 import Target from "./components/Target";
-import { TargetType } from "./types/targetType";
+import { TargetType } from "./types/targetTypes";
 
 export default function App() {
   const [image, setImage] = createSignal<HTMLImageElement>();

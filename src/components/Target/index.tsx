@@ -1,6 +1,7 @@
-import { Show, Accessor } from "solid-js";
+import { Show, Accessor, createSignal, createEffect } from "solid-js";
 import Canvas from "../Canvas";
-import { TargetType } from "../../types/targetType";
+import { IColoredLetter, TargetType } from "../../types/targetTypes";
+import { convertImageToLetters } from "./lib";
 
 interface TargetProps {
   target: Accessor<TargetType>;
@@ -9,10 +10,20 @@ interface TargetProps {
 }
 
 export default function Target(props: TargetProps) {
+  const [letters, setLetters] = createSignal<IColoredLetter[][]>([]);
+
+  createEffect(() => {
+    const element = props.image();
+
+    if (!element) return;
+
+    setLetters(convertImageToLetters(props.settings(), element));
+  });
+
   return (
-    <Show when={props.image()}>
+    <Show when={letters().length}>
       <Show when={props.target() === TargetType.Canvas}>
-        <Canvas settings={props.settings} image={props.image} />
+        <Canvas settings={props.settings} letters={letters} />
       </Show>
     </Show>
   );

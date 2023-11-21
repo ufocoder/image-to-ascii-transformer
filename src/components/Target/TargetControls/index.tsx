@@ -1,5 +1,5 @@
 import { Accessor, Setter } from "solid-js";
-import { TargetType } from "../../../types/targetType";
+import { TargetType } from "../../../types/targetTypes";
 import TargetControl from "../TargetControl";
 
 interface TagetControlsProps {
