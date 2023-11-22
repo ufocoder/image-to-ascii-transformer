@@ -8,7 +8,7 @@ import Target from "./components/Target";
 
 export default function App() {
   const [image, setImage] = createSignal<HTMLImageElement>();
-  const [settings, setSettings] = createStore<Settings>(defaultSettings);
+  const [settings, setSettings] = createStore<Settings>({ ...defaultSettings });
 
   return (
     <Layout>

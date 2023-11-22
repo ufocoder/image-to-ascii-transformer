@@ -5,21 +5,14 @@ import { settingsDescriptors } from "./descriptors";
 import CheckboxSettingField from "./fields/CheckboxField";
 import InputSettingField from "./fields/InputField";
 
-type FieldValue = string | number | boolean;
-type HandlerCreator = (fieldName: keyof Settings) => (fieldValue: FieldValue) => void;
-
 interface SettingsFormProps {
   settings: Settings;
   onChange: SetStoreFunction<Settings>;
 }
 
 export default function SettingsForm(props: SettingsFormProps) {
-  const createChangeHandler: HandlerCreator = (fieldName) => (value: FieldValue) => {
-    return props.onChange(fieldName, value);
-  };
-
   const handleResetButtonClick = () => {
-    props.onChange(defaultSettings);
+    props.onChange({ ...defaultSettings });
   };
 
   return (
@@ -29,8 +22,8 @@ export default function SettingsForm(props: SettingsFormProps) {
           if (type === "boolean") {
             return (
               <CheckboxSettingField
-                onChange={createChangeHandler(name)}
-                value={props.settings[name] as boolean}
+                onChange={props.onChange}
+                settings={props.settings}
                 title={title}
                 type={type}
                 name={name}
@@ -40,8 +33,8 @@ export default function SettingsForm(props: SettingsFormProps) {
 
           return (
             <InputSettingField
-              onChange={createChangeHandler(name)}
-              value={props.settings[name] as string}
+              onChange={props.onChange}
+              settings={props.settings}
               title={title}
               type={type}
               name={name}

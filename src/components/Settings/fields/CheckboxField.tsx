@@ -1,23 +1,23 @@
+import { SetStoreFunction } from "solid-js/store";
 import { SettingDescriptor } from "../descriptors";
 
 interface CheckboxSettingFieldProps extends SettingDescriptor {
-    value: boolean;
-    onChange: (value: boolean) => void;
+  settings: Settings;
+  onChange: SetStoreFunction<Settings>;
 }
 
 export default function CheckboxSettingField(props: CheckboxSettingFieldProps) {
-    const { title, name, value, onChange } = props;
+  const { title, name, settings, onChange } = props;
 
-    return (
-        <div class="form-group">
-            <label for={`settings-${name}`}>
-                {title}
-            </label>
-            <input 
-                id={`settings-${name}`} 
-                type='checkbox'
-                checked={value}
-                onChange={e => onChange((e.target as HTMLInputElement).checked)} />
-        </div>
-    )
+  return (
+    <div class="form-group">
+      <label for={`settings-${name}`}>{title}</label>
+      <input
+        id={`settings-${name}`}
+        type="checkbox"
+        onChange={(e) => onChange(name, (e.target as HTMLInputElement).value)}
+        checked={settings[name] as boolean}
+      />
+    </div>
+  );
 }
