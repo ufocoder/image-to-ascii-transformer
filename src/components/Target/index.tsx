@@ -6,7 +6,7 @@ import TargetControls from "./TargetControls";
 
 interface TargetProps {
   image: Accessor<HTMLImageElement | undefined>;
-  settings: Accessor<Settings>;
+  settings: Settings;
 }
 
 export default function Target(props: TargetProps) {
@@ -18,7 +18,7 @@ export default function Target(props: TargetProps) {
 
     if (!element) return;
 
-    setLetters(convertImageToLetters(props.settings(), element));
+    setLetters(convertImageToLetters(props.settings, element));
   });
 
   return (

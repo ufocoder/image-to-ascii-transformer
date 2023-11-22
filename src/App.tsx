@@ -1,4 +1,5 @@
 import { Show, createSignal } from "solid-js";
+import { createStore } from "solid-js/store";
 import Layout from "./components/Layout";
 import SettingsForm from "./components/Settings";
 import UploadForm from "./components/Upload";
@@ -7,7 +8,7 @@ import Target from "./components/Target";
 
 export default function App() {
   const [image, setImage] = createSignal<HTMLImageElement>();
-  const [settings, setSettings] = createSignal<Settings>(defaultSettings);
+  const [settings, setSettings] = createStore<Settings>(defaultSettings);
 
   return (
     <Layout>

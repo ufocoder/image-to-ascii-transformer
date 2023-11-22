@@ -4,7 +4,7 @@ import { IColoredLetter } from "../../types/targetTypes";
 
 interface CanvasProps {
   letters: Accessor<IColoredLetter[][]>;
-  settings: Accessor<Settings>;
+  settings: Settings;
 }
 
 export default function Canvas(props: CanvasProps) {
@@ -15,7 +15,7 @@ export default function Canvas(props: CanvasProps) {
       return;
     }
 
-    const ratio = props.settings().textSize;
+    const ratio = props.settings.textSize;
     const height = props.letters()[0].length;
     const width = props.letters().length;
 
@@ -34,7 +34,7 @@ export default function Canvas(props: CanvasProps) {
       return;
     }
 
-    drawLetters(context, props.settings(), props.letters());
+    drawLetters(context, props.settings, props.letters());
   });
 
   return <canvas ref={canvas} width="256" height="256" />;
