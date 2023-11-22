@@ -21,12 +21,6 @@ export default function Canvas(props: CanvasProps) {
 
     canvas.height = height * ratio;
     canvas.width = width * ratio;
-  });
-
-  createEffect(() => {
-    if (!canvas || !props.letters().length) {
-      return;
-    }
 
     const context = canvas.getContext("2d");
 
