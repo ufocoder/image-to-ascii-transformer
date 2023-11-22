@@ -10,7 +10,7 @@ export const drawLetters = (context: CanvasRenderingContext2D, settings: Setting
   context.fillRect(0, 0, width * ratio, height * ratio);
 
   // prepare text style
-  context.font = settings.textSize + "px";
+  context.font = settings.textSize + "px sans-serif";
   context.textAlign = "start";
   context.textBaseline = "top";
 
