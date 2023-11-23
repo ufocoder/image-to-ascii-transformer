@@ -15,7 +15,7 @@ export default function CheckboxSettingField(props: CheckboxSettingFieldProps) {
       <input
         id={`settings-${name}`}
         type="checkbox"
-        onChange={(e) => onChange(name, (e.target as HTMLInputElement).value)}
+        onChange={(e) => onChange(name, (e.target as HTMLInputElement).checked)}
         checked={settings[name] as boolean}
       />
     </div>
