@@ -1,58 +1,35 @@
-import { Accessor, createEffect, createSignal } from "solid-js";
-import { drawFrame, extractImageData } from "./lib";
+import { Accessor, createEffect } from "solid-js";
+import { drawLetters } from "./lib";
+import { IColoredLetter } from "../../types/targetTypes";
 
 interface CanvasProps {
-    image: Accessor<HTMLImageElement>;
-    settings: Accessor<Settings>;
+  letters: Accessor<IColoredLetter[][]>;
+  settings: Settings;
 }
 
 export default function Canvas(props: CanvasProps) {
-    const [pixels, setPixels] = createSignal<Uint8ClampedArray>();
+  let canvas: HTMLCanvasElement | undefined;
 
-    let canvas: HTMLCanvasElement | undefined;
- 
-    createEffect(() => {
-        const element = props.image();
+  createEffect(() => {
+    if (!canvas || !props.letters().length) {
+      return;
+    }
 
-        if (!element) {
-            return
-        }
+    const ratio = props.settings.textSize;
+    const height = props.letters()[0].length;
+    const width = props.letters().length;
 
-        setPixels(extractImageData(element));
-    });
+    canvas.height = height * ratio;
+    canvas.width = width * ratio;
 
-    createEffect(() => {
-        if (!canvas) {
-            return;
-        }
+    const context = canvas.getContext("2d");
 
-        const ratio  = props.settings().textSize;
-        const height = props.image().height;
-        const width = props.image().width;
+    if (!context) {
+      return;
+    }
 
-        canvas.height = height * ratio;
-        canvas.width = width * ratio;
-    });
+    drawLetters(context, props.settings, props.letters());
+  });
 
-    createEffect(() => {
-        const element = props.image();
-        const imageData = pixels();
-
-        if (!canvas || !element || !imageData) {
-            return;
-        }
-          
-        const context = canvas.getContext("2d");
-
-        if (!context) {
-            return;
-        }
-
-        drawFrame(context, props.settings(), element, imageData);
-    });
-
-    return (
-        <canvas ref={canvas} width="256" height="256" />
-    );
+  return <canvas ref={canvas} width="256" height="256" />;
 }
-  
