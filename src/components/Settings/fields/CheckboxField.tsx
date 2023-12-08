@@ -7,16 +7,14 @@ interface CheckboxSettingFieldProps extends SettingDescriptor {
 }
 
 export default function CheckboxSettingField(props: CheckboxSettingFieldProps) {
-  const { title, name, settings, onChange } = props;
-
   return (
     <div class="form-group">
-      <label for={`settings-${name}`}>{title}</label>
+      <label for={`settings-${props.name}`}>{props.title}</label>
       <input
-        id={`settings-${name}`}
+        id={`settings-${props.name}`}
         type="checkbox"
-        onChange={(e) => onChange(name, (e.target as HTMLInputElement).checked)}
-        checked={settings[name] as boolean}
+        onChange={(e) => props.onChange(props.name, (e.target as HTMLInputElement).checked)}
+        checked={props.settings[props.name] as boolean}
       />
     </div>
   );

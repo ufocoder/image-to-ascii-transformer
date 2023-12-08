@@ -7,17 +7,15 @@ interface InputSettingFieldProps extends SettingDescriptor {
 }
 
 export default function InputSettingField(props: InputSettingFieldProps) {
-  const { title, type, name, settings, onChange } = props;
-
   return (
     <div class="form-group">
-      <label for={`settings-${name}`}>{title}</label>
+      <label for={`settings-${props.name}`}>{props.title}</label>
       <input
-        id={`settings-${name}`}
-        type={type}
-        onInput={(e) => onChange(name, (e.target as HTMLInputElement).value)}
-        onChange={(e) => onChange(name, (e.target as HTMLInputElement).value)}
-        value={settings[name] as string}
+        id={`settings-${props.name}`}
+        type={props.type}
+        onInput={(e) => props.onChange(props.name, (e.target as HTMLInputElement).value)}
+        onChange={(e) => props.onChange(props.name, (e.target as HTMLInputElement).value)}
+        value={props.settings[props.name] as string}
       />
     </div>
   );
