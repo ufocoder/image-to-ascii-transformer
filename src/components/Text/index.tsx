@@ -1,9 +1,8 @@
 import { Accessor } from "solid-js";
-import { IColoredLetter } from "../../types/targetTypes";
 import { getText } from "./lib";
 
 interface TextProps {
-  letters: Accessor<IColoredLetter[][]>;
+  letters: Accessor<Letter[][]>;
   settings: Settings;
 }
 

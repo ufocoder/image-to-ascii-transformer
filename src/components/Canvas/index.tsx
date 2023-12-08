@@ -1,9 +1,8 @@
 import { Accessor, createEffect } from "solid-js";
 import { drawLetters } from "./lib";
-import { IColoredLetter } from "../../types/targetTypes";
 
 interface CanvasProps {
-  letters: Accessor<IColoredLetter[][]>;
+  letters: Accessor<Letter[][]>;
   settings: Settings;
 }
 

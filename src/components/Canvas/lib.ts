@@ -1,6 +1,4 @@
-import { IColoredLetter } from "../../types/targetTypes";
-
-export const drawLetters = (context: CanvasRenderingContext2D, settings: Settings, letters: IColoredLetter[][]) => {
+export const drawLetters = (context: CanvasRenderingContext2D, settings: Settings, letters: Letter[][]) => {
   // fill background
   const ratio = settings.textSize;
   const height = letters[0].length;
@@ -19,9 +17,9 @@ export const drawLetters = (context: CanvasRenderingContext2D, settings: Setting
 
   for (let x = 0; x < width; x += step) {
     for (let y = 0; y < height; y += step) {
-      const { letter, letterColor } = letters[x][y];
+      const { letter, color } = letters[x][y];
 
-      context.fillStyle = settings.colored ? letterColor : settings.textColor;
+      context.fillStyle = settings.colored ? color : settings.textColor;
       context.fillText(letter, (x / step) * settings.textSize, (y / step) * settings.textSize);
     }
   }

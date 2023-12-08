@@ -1,16 +1,15 @@
 import { Setter } from "solid-js";
 import { JSX } from "solid-js/jsx-runtime";
-import { TargetType } from "../../../types/targetTypes";
 
 interface TargetControlProps {
   label: string;
-  value: TargetType;
+  value: Target;
   checked: boolean;
-  onChange: Setter<TargetType>;
+  onChange: Setter<Target>;
 }
 
 export default function TargetControl(props: TargetControlProps) {
-  const onInputChange: JSX.EventHandler<HTMLInputElement, Event> = (e) => props.onChange(+e.currentTarget.value);
+  const onInputChange: JSX.EventHandler<HTMLInputElement, Event> = (e) => props.onChange(e.currentTarget.value as Target);
 
   return (
     <label>

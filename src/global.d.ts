@@ -5,3 +5,10 @@ interface Settings {
     textSize: number;
     alphabet: string;
 }
+
+type Target = "canvas" | "textarea";
+
+interface Letter {
+    letter: string;
+    color: string;
+}

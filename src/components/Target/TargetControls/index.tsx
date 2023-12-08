@@ -1,10 +1,9 @@
 import { Accessor, Setter } from "solid-js";
-import { TargetType } from "../../../types/targetTypes";
 import TargetControl from "../TargetControl";
 
 interface TagetControlsProps {
-  target: Accessor<TargetType>;
-  onChange: Setter<TargetType>;
+  target: Accessor<Target>;
+  onChange: Setter<Target>;
 }
 
 export default function TargetControls(props: TagetControlsProps) {
@@ -12,15 +11,15 @@ export default function TargetControls(props: TagetControlsProps) {
     <div>
       <TargetControl
         label="Canvas"
-        value={TargetType.Canvas}
+        value="canvas"
         onChange={props.onChange}
-        checked={props.target() === TargetType.Canvas}
+        checked={props.target() === "canvas"}
       />
       <TargetControl
         label="Text"
-        value={TargetType.Text}
+        value="textarea"
         onChange={props.onChange}
-        checked={props.target() === TargetType.Text}
+        checked={props.target() === "textarea"}
       />
     </div>
   );

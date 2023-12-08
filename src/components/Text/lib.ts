@@ -1,6 +1,4 @@
-import { IColoredLetter } from "../../types/targetTypes";
-
-export const getText = (letters: IColoredLetter[][]): string => {
+export const getText = (letters: Letter[][]): string => {
   let result = "";
 
   for (let row = 0; row < letters[0].length; row++) {

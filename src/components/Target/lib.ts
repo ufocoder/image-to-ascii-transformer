@@ -1,5 +1,3 @@
-import { IColoredLetter } from "../../types/targetTypes";
-
 const extractImageData = (element: HTMLImageElement): Uint8ClampedArray => {
   const canvas = document.createElement("canvas");
   const context = canvas.getContext("2d");
@@ -56,18 +54,18 @@ export const convertImageToLetters = (settings: Settings, element: HTMLImageElem
   const width = element.width;
   const imageData = extractImageData(element);
   const step = 1;
-  const letters: IColoredLetter[][] = [];
+  const letters: Letter[][] = [];
 
   for (let x = 0; x < width; x += step) {
-    const columnOfLetters: IColoredLetter[] = [];
+    const columnOfLetters: Letter[] = [];
 
     for (let y = 0; y < height; y += step) {
       const { r, g, b } = mergePixels(imageData, width, x, y, step);
-      const letterColor = "#" + r.toString(16) + g.toString(16) + b.toString(16);
+      const color = "#" + r.toString(16) + g.toString(16) + b.toString(16);
       const averageColor = (r + g + b) / 3;
       const letter = getAlphabetLetter(averageColor, settings.alphabet);
 
-      columnOfLetters.push({ letter, letterColor });
+      columnOfLetters.push({ letter, color });
     }
 
     letters.push(columnOfLetters);
