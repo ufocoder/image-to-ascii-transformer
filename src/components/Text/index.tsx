@@ -13,10 +13,11 @@ export default function Text(props: TextProps) {
       cols={props.letters().length}
       rows={props.letters()[0].length}
       style={{
-        resize: 'none',
-        ['font-family']: 'Courier New',
-        ['font-size']: `${props.settings.textSize}px`,
-        ['background-color']: props.settings.backgroundColor,
+        resize: "none",
+        "font-family": "monospace",
+        "font-size": `${props.settings.textSize}px`,
+        "line-height": 1,
+        "background-color": props.settings.backgroundColor,
         color: props.settings.textColor,
       }}
     >
