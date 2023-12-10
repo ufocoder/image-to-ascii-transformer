@@ -1,7 +1,7 @@
 import { SetStoreFunction } from "solid-js/store";
-import { SettingDescriptor } from "../descriptors";
+import { SettingBaseDescriptor } from "../descriptors";
 
-interface InputSettingFieldProps extends SettingDescriptor {
+interface InputSettingFieldProps extends SettingBaseDescriptor {
   settings: Settings;
   onChange: SetStoreFunction<Settings>;
 }

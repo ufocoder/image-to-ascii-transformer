@@ -1,17 +1,19 @@
 export type SettingType = "color" | "text" | "boolean" | "number" | "select";
 
-export type SettingBaseDescriptor = {
+export interface SettingBaseDescriptor {
   name: keyof Settings;
   type: SettingType;
   title: string;
-};
+}
 
-interface SettingOptionsDescriptor extends SettingBaseDescriptor {
+export interface SettingOptionsDescriptor extends SettingBaseDescriptor {
   type: "select";
   options: SelectOption[];
 }
 
-export const settingsDescriptors: (SettingBaseDescriptor | SettingOptionsDescriptor)[] = [
+type SettingDescriptor = SettingBaseDescriptor | SettingOptionsDescriptor;
+
+export const settingsDescriptors: SettingDescriptor[] = [
   {
     name: "colored",
     type: "boolean",
