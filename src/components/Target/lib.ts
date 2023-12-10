@@ -14,12 +14,17 @@ export const extractImageData = (element: HTMLImageElement): Uint8ClampedArray =
 };
 
 const getAlphabetLetter = (averageColor: number, alphabet: string) => {
-  const letterIndex = Math.floor((averageColor / 255) * alphabet.length);
+  const letterIndex = Math.floor((averageColor / 256) * alphabet.length);
 
   return alphabet[letterIndex];
 };
 
-export const convertImageToLetters = (settings: Settings, width: number, height: number, imageData: Uint8ClampedArray): Letter[][] => {
+export const convertImageToLetters = (
+  settings: Settings,
+  width: number,
+  height: number,
+  imageData: Uint8ClampedArray
+): Letter[][] => {
   const letters: Letter[][] = [];
 
   for (let x = 0; x < width; x++) {
@@ -44,3 +49,27 @@ export const convertImageToLetters = (settings: Settings, width: number, height:
 
   return letters;
 };
+
+export function prepareImageScaledData(imageElement: HTMLImageElement, settings: Settings) {
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d");
+
+  const scaledHeight = Math.ceil(imageElement.height / settings.textSize);
+  const scaledWidth = Math.ceil(imageElement.width / settings.textSize);
+
+  ctx!.drawImage(imageElement, 0, 0, imageElement.width, imageElement.height, 0, 0, scaledWidth, scaledHeight);
+
+  return {
+    width: scaledWidth,
+    height: scaledHeight,
+    imageData: ctx!.getImageData(0, 0, scaledWidth, scaledHeight).data,
+  };
+}
+
+export function prepareImageLettersData(imageElement: HTMLImageElement) {
+  return {
+    height: imageElement.height,
+    width: imageElement.width,
+    imageData: extractImageData(imageElement),
+  };
+}

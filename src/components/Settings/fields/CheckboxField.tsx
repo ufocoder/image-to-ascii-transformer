@@ -1,7 +1,7 @@
 import { SetStoreFunction } from "solid-js/store";
-import { SettingDescriptor } from "../descriptors";
+import { SettingBaseDescriptor } from "../descriptors";
 
-interface CheckboxSettingFieldProps extends SettingDescriptor {
+interface CheckboxSettingFieldProps extends SettingBaseDescriptor {
   settings: Settings;
   onChange: SetStoreFunction<Settings>;
 }

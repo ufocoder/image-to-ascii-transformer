@@ -1,10 +1,10 @@
 export const DEFAULT_ALPHABET = "Ñ@#W$9876543210?!abc;:+=-,._ ";
 
-export const defaultSettings = {
+export const defaultSettings: Settings = {
   alphabet: DEFAULT_ALPHABET,
   colored: false,
   backgroundColor: "#ffffff",
   textColor: "#000000",
   textSize: 8,
-  scale: 'same-size',
+  scale: "same-size",
 };
