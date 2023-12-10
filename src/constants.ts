@@ -7,4 +7,5 @@ export const defaultSettings: Settings = {
   textColor: "#000000",
   textSize: 8,
   scale: "same-size",
+  invertColors: false,
 };

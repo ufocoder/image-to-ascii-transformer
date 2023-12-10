@@ -13,8 +13,10 @@ export const extractImageData = (element: HTMLImageElement): Uint8ClampedArray =
   return context!.getImageData(0, 0, width, height).data;
 };
 
-const getAlphabetLetter = (averageColor: number, alphabet: string) => {
-  const letterIndex = Math.floor((averageColor / 256) * alphabet.length);
+const getAlphabetLetter = (averageColor: number, alphabet: string, invert: boolean) => {
+  let letterIndex = Math.floor((averageColor / 256) * alphabet.length);
+
+  if (invert) letterIndex = alphabet.length - 1 - letterIndex;
 
   return alphabet[letterIndex];
 };
@@ -39,7 +41,7 @@ export const convertImageToLetters = (
 
       const color = "#" + r.toString(16) + g.toString(16) + b.toString(16);
       const averageColor = (r + g + b) / 3;
-      const letter = getAlphabetLetter(averageColor, settings.alphabet);
+      const letter = getAlphabetLetter(averageColor, settings.alphabet, settings.invertColors);
 
       columnOfLetters.push({ letter, color });
     }
