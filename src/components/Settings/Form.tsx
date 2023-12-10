@@ -4,6 +4,7 @@ import { defaultSettings } from "../../constants";
 import { settingsDescriptors } from "./descriptors";
 import CheckboxSettingField from "./fields/CheckboxField";
 import InputSettingField from "./fields/InputField";
+import SelectSettingField from "./fields/SelectField";
 
 interface SettingsFormProps {
   settings: Settings;
@@ -18,28 +19,42 @@ export default function SettingsForm(props: SettingsFormProps) {
   return (
     <form>
       <For each={settingsDescriptors}>
-        {({ name, type, title }) => {
-          if (type === "boolean") {
-            return (
-              <CheckboxSettingField
-                onChange={props.onChange}
-                settings={props.settings}
-                title={title}
-                type={type}
-                name={name}
-              />
-            );
-          }
+        {({ name, type, title, options }) => {
+          switch (type) {
+            case "boolean":
+              return (
+                <CheckboxSettingField
+                  onChange={props.onChange}
+                  settings={props.settings}
+                  title={title}
+                  type={type}
+                  name={name}
+                />
+              );
 
-          return (
-            <InputSettingField
-              onChange={props.onChange}
-              settings={props.settings}
-              title={title}
-              type={type}
-              name={name}
-            />
-          );
+            case "select":
+              return (
+                <SelectSettingField
+                  onChange={props.onChange}
+                  settings={props.settings}
+                  title={title}
+                  type={type}
+                  name={name}
+                  options={options}
+                />
+              );
+
+            default:
+              return (
+                <InputSettingField
+                  onChange={props.onChange}
+                  settings={props.settings}
+                  title={title}
+                  type={type}
+                  name={name}
+                />
+              );
+          }
         }}
       </For>
 

@@ -11,9 +11,7 @@ export interface SettingOptionsDescriptor extends SettingBaseDescriptor {
   options: SelectOption[];
 }
 
-type SettingDescriptor = SettingBaseDescriptor | SettingOptionsDescriptor;
-
-export const settingsDescriptors: SettingDescriptor[] = [
+export const settingsDescriptors: (SettingBaseDescriptor | SettingOptionsDescriptor)[] = [
   {
     name: "colored",
     type: "boolean",
