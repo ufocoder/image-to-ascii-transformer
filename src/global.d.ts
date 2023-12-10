@@ -7,6 +7,7 @@ interface Settings {
   textSize: number;
   alphabet: string;
   scale: Scale;
+  invertColors: boolean;
 }
 
 type Target = "canvas" | "textarea";

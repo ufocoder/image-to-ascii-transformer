@@ -17,13 +17,18 @@ export interface SettingMultipleDescriptor extends SettingBaseDescriptor {
   options: SelectOption[];
 }
 
-type SettingDescriptor = SettingSingleDescriptor | SettingMultipleDescriptor
+type SettingDescriptor = SettingSingleDescriptor | SettingMultipleDescriptor;
 
 export const settingsDescriptors: SettingDescriptor[] = [
   {
     name: "colored",
     type: "boolean",
     title: "Colored",
+  },
+  {
+    name: "invertColors",
+    type: "boolean",
+    title: "Invert Colors",
   },
   {
     name: "backgroundColor",
