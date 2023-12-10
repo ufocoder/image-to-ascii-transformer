@@ -19,7 +19,8 @@ export default function SettingsForm(props: SettingsFormProps) {
   return (
     <form>
       <For each={settingsDescriptors}>
-        {({ name, type, title, options }) => {
+        {(settingsDescriptor) => {
+          const { name, type, title } = settingsDescriptor;
           switch (type) {
             case "boolean":
               return (
@@ -40,7 +41,7 @@ export default function SettingsForm(props: SettingsFormProps) {
                   title={title}
                   type={type}
                   name={name}
-                  options={options}
+                  options={settingsDescriptor.options}
                 />
               );
 

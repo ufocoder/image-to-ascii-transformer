@@ -1,8 +1,8 @@
 import { SetStoreFunction } from "solid-js/store";
-import { SettingOptionsDescriptor } from "../descriptors";
+import { SettingMultipleDescriptor } from "../descriptors";
 import { For } from "solid-js";
 
-interface SelectSettingFieldProps extends SettingOptionsDescriptor {
+interface SelectSettingFieldProps extends SettingMultipleDescriptor {
   settings: Settings;
   onChange: SetStoreFunction<Settings>;
 }

@@ -3,7 +3,7 @@ interface SettingBaseDescriptor {
   name: keyof Settings;
 }
 
-interface SettingSingleDescriptor extends SettingBaseDescriptor {
+export interface SettingSingleDescriptor extends SettingBaseDescriptor {
   type: "color" | "text" | "boolean" | "number";
 }
 
@@ -12,12 +12,12 @@ interface SelectOption {
   value: Scale;
 }
 
-interface SettingScaleDescriptor extends SettingBaseDescriptor {
+export interface SettingMultipleDescriptor extends SettingBaseDescriptor {
   type: "select";
   options: SelectOption[];
 }
 
-type SettingDescriptor = SettingSingleDescriptor | SettingScaleDescriptor
+type SettingDescriptor = SettingSingleDescriptor | SettingMultipleDescriptor
 
 export const settingsDescriptors: SettingDescriptor[] = [
   {
