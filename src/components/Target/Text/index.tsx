@@ -16,7 +16,6 @@ export default function Text(props: TextProps) {
         resize: "none",
         "font-family": "monospace",
         "font-size": `${props.settings.textSize}px`,
-        "line-height": 1,
         "background-color": props.settings.backgroundColor,
         color: props.settings.textColor,
       }}

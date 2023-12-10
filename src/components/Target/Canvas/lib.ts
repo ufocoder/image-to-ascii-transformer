@@ -20,7 +20,8 @@ export const drawLetters = (context: CanvasRenderingContext2D, settings: Setting
       const { letter, color } = letters[x][y];
 
       context.fillStyle = settings.colored ? color : settings.textColor;
-      context.fillText(letter, (x / step) * settings.textSize, (y / step) * settings.textSize);
+      context.fillText(letter, (x / step) * settings.textSize, (y / step) * settings.textSize, settings.textSize);
     }
   }
 };
+
