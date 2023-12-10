@@ -14,7 +14,7 @@ export const extractImageData = (element: HTMLImageElement): Uint8ClampedArray =
 };
 
 const getAlphabetLetter = (averageColor: number, alphabet: string) => {
-  const letterIndex = Math.floor((averageColor / 255) * alphabet.length);
+  const letterIndex = Math.floor((averageColor / 256) * alphabet.length);
 
   return alphabet[letterIndex];
 };
