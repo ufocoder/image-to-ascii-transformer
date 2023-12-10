@@ -11,14 +11,13 @@ export default function SelectSettingField(props: SelectSettingFieldProps) {
   return (
     <div class="form-group">
       <label for={`settings-${props.name}`}>{props.title}</label>
-      <select id={`settings-${props.name}`}>
+      <select
+        id={`settings-${props.name}`}
+        onChange={(e) => props.onChange(props.name, (e.target as HTMLSelectElement).value)}
+      >
         <For each={props.options}>
           {({ title, value }) => (
-            <option
-              value={value}
-              onChange={(e) => props.onChange(props.name, (e.target as HTMLInputElement).value)}
-              selected={props.settings.scale === value}
-            >
+            <option value={value} selected={props.settings.scale === value}>
               {title}
             </option>
           )}
