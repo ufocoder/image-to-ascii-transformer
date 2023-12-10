@@ -5,5 +5,6 @@ export const defaultSettings = {
   colored: false,
   backgroundColor: "#ffffff",
   textColor: "#000000",
-  textSize: 10,
+  textSize: 8,
+  scale: 'same-size',
 };
