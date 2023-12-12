@@ -25,3 +25,12 @@ export const drawLetters = (context: CanvasRenderingContext2D, settings: Setting
   }
 };
 
+export function createLink(canvas: HTMLCanvasElement) {
+  const link = document.createElement("a");
+
+  link.download = "image-from-canvas.png";
+  link.href = canvas.toDataURL();
+  link.innerText = "Download image from canvas";
+
+  return link;
+}

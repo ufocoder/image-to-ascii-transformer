@@ -1,9 +1,10 @@
-import { Accessor, createEffect } from "solid-js";
-import { drawLetters } from "../../../lib/canvas";
+import { Accessor, Setter, createEffect } from "solid-js";
+import { drawLetters, createLink } from "../../../lib/canvas";
 
 interface CanvasProps {
   letters: Accessor<Letter[][]>;
   settings: Settings;
+  onLink: Setter<HTMLAnchorElement>;
 }
 
 export default function Canvas(props: CanvasProps) {
@@ -28,6 +29,8 @@ export default function Canvas(props: CanvasProps) {
     }
 
     drawLetters(context, props.settings, props.letters());
+
+    props.onLink(createLink(canvas));
   });
 
   return <canvas ref={canvas} width="256" height="256" />;
