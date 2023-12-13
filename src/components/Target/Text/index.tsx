@@ -1,5 +1,5 @@
 import { Accessor } from "solid-js";
-import { getText } from "./lib";
+import { getText } from "@app/lib/text";
 
 interface TextProps {
   letters: Accessor<Letter[][]>;
