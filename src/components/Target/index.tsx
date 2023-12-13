@@ -1,7 +1,7 @@
 import { Show, Accessor, createSignal, createEffect } from "solid-js";
 import Canvas from "./Canvas";
 import Text from "./Text";
-import { convertImageToLetters, prepareImageLettersData, prepareImageScaledData } from "@lib/target";
+import { convertImageToLetters, prepareImageLettersData, prepareImageScaledData } from "@app/lib/target";
 import TargetControls from "./TargetControls";
 import Link from "../Link";
 
