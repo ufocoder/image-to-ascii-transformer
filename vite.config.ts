@@ -8,7 +8,7 @@ export default defineConfig({
   plugins: [solidPlugin(), eslintPlugin()],
   resolve: {
     alias: {
-      "@lib": path.resolve(__dirname, "./src/lib"),
+      "@app": path.resolve(__dirname, "./src"),
     },
   },
   server: {
