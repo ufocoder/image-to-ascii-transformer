@@ -1,5 +1,5 @@
 import { Accessor, Setter, createEffect } from "solid-js";
-import { drawLetters, createLink } from "../../../lib/canvas";
+import { drawLetters, createLink } from "@lib/canvas";
 
 interface CanvasProps {
   letters: Accessor<Letter[][]>;

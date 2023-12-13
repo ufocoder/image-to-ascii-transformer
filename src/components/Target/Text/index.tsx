@@ -1,5 +1,5 @@
 import { Accessor, Setter, createEffect } from "solid-js";
-import { getText, createLink } from "../../../lib/text";
+import { getText, createLink } from "@lib/text";
 
 interface TextProps {
   letters: Accessor<Letter[][]>;
