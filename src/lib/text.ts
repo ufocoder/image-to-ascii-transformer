@@ -11,3 +11,14 @@ export const getText = (letters: Letter[][]): string => {
 
   return result;
 };
+
+export function createLink(text: string) {
+  const link = document.createElement("a");
+  const textFileAsBlob = new Blob([text], { type: "text/plain" });
+
+  link.download = "image-from-textarea.txt";
+  link.href = window.URL.createObjectURL(textFileAsBlob);
+  link.textContent = "Download text from textarea";
+
+  return link;
+}
