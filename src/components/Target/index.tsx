@@ -3,7 +3,6 @@ import Canvas from "./Canvas";
 import Text from "./Text";
 import { convertImageToLetters, prepareImageLettersData, prepareImageScaledData } from "@app/lib/target";
 import TargetControls from "./TargetControls";
-import Link from "../Link";
 
 interface TargetProps {
   image: Accessor<HTMLImageElement | undefined>;
@@ -13,7 +12,6 @@ interface TargetProps {
 export default function Target(props: TargetProps) {
   const [letters, setLetters] = createSignal<Letter[][]>([]);
   const [target, setTarget] = createSignal<Target>("canvas");
-  const [link, setLink] = createSignal<HTMLAnchorElement>();
 
   createEffect(() => {
     const element = props.image();
@@ -36,15 +34,12 @@ export default function Target(props: TargetProps) {
   return (
     <>
       <TargetControls target={target} onChange={setTarget} />
-      <Show when={link()}>
-        <Link link={link} />
-      </Show>
       <Show when={letters().length}>
         <Show when={target() === "canvas"}>
-          <Canvas settings={props.settings} letters={letters} onLink={setLink} />
+          <Canvas settings={props.settings} letters={letters} />
         </Show>
         <Show when={target() === "textarea"}>
-          <Text settings={props.settings} letters={letters} onLink={setLink} />
+          <Text settings={props.settings} letters={letters} />
         </Show>
       </Show>
     </>

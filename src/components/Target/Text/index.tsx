@@ -1,10 +1,9 @@
-import { Accessor, Setter, createEffect } from "solid-js";
-import { getText, createLink } from "@app/lib/text";
+import { Accessor, createEffect } from "solid-js";
+import { getText } from "@app/lib/text";
 
 interface TextProps {
   letters: Accessor<Letter[][]>;
   settings: Settings;
-  onLink: Setter<HTMLAnchorElement>;
 }
 
 export default function Text(props: TextProps) {
@@ -17,7 +16,6 @@ export default function Text(props: TextProps) {
 
     const text = getText(props.letters());
     textarea.value = text;
-    props.onLink(createLink(text));
   });
 
   return (
