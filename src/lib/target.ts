@@ -75,3 +75,15 @@ export function prepareImageLettersData(imageElement: HTMLImageElement) {
     imageData: extractImageData(imageElement),
   };
 }
+
+export function createHref(renderer: HTMLCanvasElement | HTMLTextAreaElement | undefined) {
+  console.debug("createHref: ", renderer);
+  if (renderer instanceof HTMLCanvasElement) {
+    return renderer.toDataURL();
+  } else if (renderer instanceof HTMLTextAreaElement) {
+    const blob = new Blob([renderer.value], { type: "text/plain" });
+    return URL.createObjectURL(blob);
+  }
+
+  return "#";
+}
