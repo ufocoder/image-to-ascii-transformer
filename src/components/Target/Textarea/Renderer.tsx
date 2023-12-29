@@ -1,5 +1,5 @@
 import { Accessor, Setter, createEffect } from "solid-js";
-import { getText } from "@app/components/Target/Text/text";
+import { getText } from "@app/components/Target/Textarea/lib";
 
 interface TextProps {
   ref: Accessor<HTMLTextAreaElement | undefined>;
@@ -10,15 +10,11 @@ interface TextProps {
 
 export default function Text(props: TextProps) {
   createEffect(() => {
-
     if (!props.ref() || !props.letters().length) {
       return;
     }
 
-    console.log('create Effetct Text')
-
     const text = getText(props.letters());
-    console.log('text', text, props.ref)
     props.ref()!.value = text;
   });
 

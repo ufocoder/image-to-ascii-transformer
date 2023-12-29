@@ -1,6 +1,6 @@
 import { Show, Accessor, createSignal, createEffect } from "solid-js";
 import { convertImageToLetters, prepareImageLettersData, prepareImageScaledData } from "@app/lib/target";
-import Controls from "./Controls";
+import Controls from "../Controls";
 import Canvas from "./Canvas";
 import Textarea from "./Textarea";
 
