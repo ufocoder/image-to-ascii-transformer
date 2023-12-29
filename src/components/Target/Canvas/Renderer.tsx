@@ -2,15 +2,15 @@ import { Accessor, Setter, createEffect } from "solid-js";
 import { drawLetters } from "@app/lib/canvas";
 
 interface RendererProps {
-  canvas: Accessor<HTMLCanvasElement | undefined>;
+  ref: Accessor<HTMLCanvasElement | undefined>;
+  setRef: Setter<HTMLCanvasElement | undefined>;
   letters: Accessor<Letter[][]>;
   settings: Settings;
-  setCanvas: Setter<HTMLCanvasElement | undefined>;
 }
 
 export default function Renderer(props: RendererProps) {
   createEffect(() => {
-    if (!props.canvas() || !props.letters().length) {
+    if (!props.ref() || !props.letters().length) {
       return;
     }
 
@@ -18,10 +18,10 @@ export default function Renderer(props: RendererProps) {
     const height = props.letters()[0].length;
     const width = props.letters().length;
 
-    props.canvas()!.height = height * ratio;
-    props.canvas()!.width = width * ratio;
+    props.ref()!.height = height * ratio;
+    props.ref()!.width = width * ratio;
 
-    const context = props.canvas()!.getContext("2d");
+    const context = props.ref()!.getContext("2d");
 
     if (!context) {
       return;
@@ -30,5 +30,5 @@ export default function Renderer(props: RendererProps) {
     drawLetters(context, props.settings, props.letters());
   });
 
-  return <canvas ref={(el) => props.setCanvas(el)} width="256" height="256" />;
+  return <canvas ref={props.setRef} width="256" height="256" />;
 }

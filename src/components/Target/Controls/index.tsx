@@ -1,21 +1,21 @@
 import { Accessor, Setter } from "solid-js";
-import TargetControl from "../TargetControl";
+import Control from "./Control";
 
 interface TagetControlsProps {
   target: Accessor<Target>;
   onChange: Setter<Target>;
 }
 
-export default function TargetControls(props: TagetControlsProps) {
+export default function Controls(props: TagetControlsProps) {
   return (
     <div>
-      <TargetControl
+      <Control
         label="Canvas"
         value="canvas"
         onChange={props.onChange}
         checked={props.target() === "canvas"}
       />
-      <TargetControl
+      <Control
         label="Text"
         value="textarea"
         onChange={props.onChange}

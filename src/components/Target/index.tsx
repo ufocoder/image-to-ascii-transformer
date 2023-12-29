@@ -1,8 +1,8 @@
 import { Show, Accessor, createSignal, createEffect } from "solid-js";
-import Canvas from "./Canvas";
-import Text from "./Text";
 import { convertImageToLetters, prepareImageLettersData, prepareImageScaledData } from "@app/lib/target";
-import TargetControls from "./TargetControls";
+import Controls from "./Controls";
+import Canvas from "./Canvas";
+import Textarea from "./Textarea";
 
 interface TargetProps {
   image: Accessor<HTMLImageElement | undefined>;
@@ -25,7 +25,6 @@ export default function Target(props: TargetProps) {
         ? prepareImageScaledData(element, props.settings)
         : prepareImageLettersData(element);
 
-    // element = new canvas from canvas scale
     const letters = convertImageToLetters(props.settings, width, height, imageData);
 
     setLetters(letters);
@@ -33,13 +32,13 @@ export default function Target(props: TargetProps) {
 
   return (
     <>
-      <TargetControls target={target} onChange={setTarget} />
+      <Controls target={target} onChange={setTarget} />
       <Show when={letters().length}>
         <Show when={target() === "canvas"}>
           <Canvas settings={props.settings} letters={letters} />
         </Show>
         <Show when={target() === "textarea"}>
-          <Text settings={props.settings} letters={letters} />
+          <Textarea settings={props.settings} letters={letters} />
         </Show>
       </Show>
     </>

@@ -1,27 +1,31 @@
-import { Accessor, createEffect } from "solid-js";
-import { getText } from "@app/lib/text";
+import { Accessor, Setter, createEffect } from "solid-js";
+import { getText } from "@app/components/Target/Text/text";
 
 interface TextProps {
+  ref: Accessor<HTMLTextAreaElement | undefined>;
+  setRef: Setter<HTMLTextAreaElement | undefined>;
   letters: Accessor<Letter[][]>;
   settings: Settings;
 }
 
 export default function Text(props: TextProps) {
-  let textarea: HTMLTextAreaElement | undefined;
-
   createEffect(() => {
-    if (!textarea || !props.letters().length) {
+
+    if (!props.ref() || !props.letters().length) {
       return;
     }
 
+    console.log('create Effetct Text')
+
     const text = getText(props.letters());
-    textarea.value = text;
+    console.log('text', text, props.ref)
+    props.ref()!.value = text;
   });
 
   return (
     <textarea
-      ref={textarea}
       readonly
+      ref={props.setRef}
       cols={props.letters().length}
       rows={props.letters()[0].length}
       style={{
@@ -31,6 +35,6 @@ export default function Text(props: TextProps) {
         "background-color": props.settings.backgroundColor,
         color: props.settings.textColor,
       }}
-    ></textarea>
+    />
   );
 }

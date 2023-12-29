@@ -7,8 +7,8 @@ interface CanvasProps {
   settings: Settings;
 }
 
-export default function Canvas(props: CanvasProps) {
-  const [ref, setRef] = createSignal<HTMLCanvasElement | undefined>();
+export default function Textarea(props: CanvasProps) {
+  const [ref, setRef] = createSignal<HTMLTextAreaElement | undefined>();
 
   return (
     <>
