@@ -7,19 +7,19 @@ import { defaultSettings } from "./constants";
 import Target from "./components/Target";
 
 export default function App() {
-  const [image, setImage] = createSignal<HTMLImageElement>();
+  const [imageContainer, setImageContainer] = createSignal<ImageContainer>();
   const [settings, setSettings] = createStore<Settings>({ ...defaultSettings });
 
   return (
     <Layout>
       <div class="Layout-sidebar">
-        <UploadForm onLoad={setImage} />
-        <Show when={image()}>
+        <UploadForm onLoad={setImageContainer} />
+        <Show when={imageContainer}>
           <SettingsForm settings={settings} onChange={setSettings} />
         </Show>
       </div>
       <div class="Layout-main">
-        <Target settings={settings} image={image} />
+        <Target settings={settings} imageContainer={imageContainer} />
       </div>
     </Layout>
   );

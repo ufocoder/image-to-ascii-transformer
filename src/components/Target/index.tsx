@@ -1,11 +1,11 @@
 import { Show, Accessor, createSignal, createEffect } from "solid-js";
-import { convertImageToLetters, prepareImageLettersData, prepareImageScaledData } from "@app/lib/target";
 import Controls from "../Controls";
 import Canvas from "./Canvas";
 import Textarea from "./Textarea";
+import generateLetters from "./generator";
 
 interface TargetProps {
-  image: Accessor<HTMLImageElement | undefined>;
+  imageContainer: Accessor<ImageContainer | undefined>;
   settings: Settings;
 }
 
@@ -13,21 +13,14 @@ export default function Target(props: TargetProps) {
   const [letters, setLetters] = createSignal<Letter[][]>([]);
   const [target, setTarget] = createSignal<Target>("canvas");
 
-  createEffect(() => {
-    const element = props.image();
+  createEffect(async () => {
+    const container = props.imageContainer();
 
-    if (!element) {
+    if (!container) {
       return;
     }
 
-    const { width, height, imageData } =
-      props.settings.scale == "same-size"
-        ? prepareImageScaledData(element, props.settings)
-        : prepareImageLettersData(element);
-
-    const letters = convertImageToLetters(props.settings, width, height, imageData);
-
-    setLetters(letters);
+    await generateLetters(container, props.settings, setLetters)
   });
 
   return (
