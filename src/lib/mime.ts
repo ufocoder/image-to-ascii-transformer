@@ -18,12 +18,12 @@ const extractMimeType = (header: string) => {
 export const getMimeType = async (blob: Blob) => new Promise((resolve, reject) => {
     const fileReader = new FileReader();
     
-    fileReader.onloadend = (e) => {
-        const bytes = (new Uint8Array((e.target as any).result)).subarray(0, 4);
+    fileReader.onloadend = () => {
+        const bytes = new Uint8Array(fileReader.result as ArrayBuffer).subarray(0, 4);
         const header = bytes.reduce((accumulator, byte) => accumulator += byte.toString(16), '');
 
         resolve(extractMimeType(header));
-    }
+    };
 
     fileReader.onerror = reject;
     fileReader.onabort = reject;

@@ -62,7 +62,6 @@ export function prepareImageScaledData(element: HTMLImageElement, settings: Sett
 
   ctx!.drawImage(element, 0, 0, element.width, element.height, 0, 0, scaledWidth, scaledHeight);
 
-  console.log('scaledHeight', scaledHeight,'scaledWidth', scaledWidth)
   return {
     width: scaledWidth,
     height: scaledHeight,
@@ -86,7 +85,6 @@ export const extractImageData = (element: HTMLImageElement): Uint8ClampedArray =
 };
 
 export function prepareImageLettersData(element: HTMLImageElement) {
-  console.log('prepareImageLettersData')
   return {
     height: element.height,
     width: element.width,
