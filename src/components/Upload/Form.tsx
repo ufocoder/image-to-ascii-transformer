@@ -1,19 +1,21 @@
+import { LoadCallback } from "./types";
 
-
-type LoadCallback = (image: HTMLImageElement) => void
-
-const getImageFileData = (file: File, cb: LoadCallback) => {
+const getImageFileData = async (file: File, cb: LoadCallback) => {
     const fileReader = new FileReader();
+    const arrayBuffer = await file.arrayBuffer()
 
-    fileReader.onload = () => {
-        const imageElement = new Image();
-        const buffer = fileReader.result as string;
-
-        imageElement.onload = () => {
-            cb(imageElement);
+    fileReader.onload = async () => {
+        const element = new Image();
+        const dataURL = fileReader.result as string;
+        
+        element.onload = () => {
+            cb({
+                element,
+                buffer: arrayBuffer,
+            });
         }
 
-        imageElement.src = buffer;
+        element.src = dataURL;
     };
 
     fileReader.readAsDataURL(file);
@@ -24,11 +26,13 @@ interface UploadFormProps {
 }
 
 export default function UploadForm(props: UploadFormProps) {
-    const handleFileChange = (e: Event) => {
+    const handleFileChange = async (e: Event) => {
         const target = e.target as HTMLInputElement;
+
         if (!target.files) {
             return
         }
+
         getImageFileData(target.files[0], props.onLoad)
     }
 

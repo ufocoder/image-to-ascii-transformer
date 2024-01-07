@@ -1,8 +1,9 @@
 import UploadForm from "./Form";
 import UploadPreset from "./Preset";
+import { LoadCallback } from "./types";
 
 interface UploadProps {
-    onLoad: (image: HTMLImageElement) => void
+    onLoad: LoadCallback
 }
 
 export default function Upload(props: UploadProps) {

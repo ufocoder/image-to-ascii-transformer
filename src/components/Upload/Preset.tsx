@@ -1,4 +1,5 @@
 import { For } from "solid-js";
+import { LoadCallback } from "./types";
 
 type ImagePreset = {
     title: string;
@@ -7,29 +8,50 @@ type ImagePreset = {
 
 const ImagePresets: ImagePreset[] = [
     {
-        title: 'Cat 48x48',
+        title: 'JPEG: Cat',
+        src: import.meta.env.BASE_URL + '/cat.jpg',
+    },
+    {
+        title: 'PNG: Cat 48x48',
         src: import.meta.env.BASE_URL + '/cat-48.png',
     },
     {
-        title: 'Cat 256x256',
+        title: 'PNG: Cat 256x256',
         src: import.meta.env.BASE_URL + '/cat-256.png'
     },
     {
-        title: 'Animated hourse',
-        src: import.meta.env.BASE_URL + '/animated.gif'
+        title: 'GIF: Animated cat',
+        src: import.meta.env.BASE_URL + '/n-frames-2.gif'
+    },
+    {
+        title: 'GIF: Animated hourse',
+        src: import.meta.env.BASE_URL + '/n-frames-1.gif'
+    },
+    {
+        title: 'GIF: Not animated hourses',
+        src: import.meta.env.BASE_URL + '/1-frame.gif'
     }  
 ];
 
 interface UploadPresetProps {
-    onLoad: (image: HTMLImageElement) => void
+    onLoad: LoadCallback
 }
 
 export default function UploadPreset(props: UploadPresetProps) {
-    const selectPreset = (src: string) => {
-        const imageElement = new Image();
+    const selectPreset = async (src: string) => {
+        const response = await fetch(src)
+        const arrayBuffer = await response.arrayBuffer();
 
-        imageElement.onload = () => props.onLoad(imageElement);
-        imageElement.src = src;
+        const element = new Image();
+        
+        element.onload = () => {
+            props.onLoad({
+                element,
+                buffer: arrayBuffer
+            });
+        };
+
+        element.src = src;
     };
 
     return (

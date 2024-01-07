@@ -1,0 +1,1 @@
+export type LoadCallback = (container: ImageContainer) => void
