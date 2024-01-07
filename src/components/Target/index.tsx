@@ -24,10 +24,6 @@ export default function Target(props: TargetProps) {
       return;
     }
 
-    if (stopAnimation) {
-      stopAnimation();
-    }
-
     const letterFrames = await generateLetters(container, props.settings)
 
     if (letterFrames.length > 1) {
@@ -41,11 +37,15 @@ export default function Target(props: TargetProps) {
     }
   });
 
-  createEffect(async () => {
+  createEffect(() => {
     if (frames().length > 1) {
+
+      if (stopAnimation) {
+        stopAnimation();
+      }
+      
       const { start, stop } = createAnimation(frames(), setLetters);
 
-      console.log('start');
       start();
 
       stopAnimation = stop;

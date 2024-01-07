@@ -12,9 +12,10 @@ export default async function generateLetters(container: ImageContainer, setting
 
         const letterFrames: LetterFrame[] = [];        
         const canvas = document.createElement('canvas');
+        const baseFrame = frames[0]
 
-        canvas.width = frames[0].dims.left + frames[0].dims.width;
-        canvas.height = frames[0].dims.top + frames[0].dims.height;
+        canvas.width = baseFrame.dims.left + baseFrame.dims.width;
+        canvas.height = baseFrame.dims.top + baseFrame.dims.height;
 
         frames.forEach(frame => {
             const element = frameToImage(canvas, frame);
