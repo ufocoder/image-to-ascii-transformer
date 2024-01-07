@@ -1,3 +1,8 @@
+type ImageContainer = {
+  element: HTMLImageElement;
+  buffer: ArrayBuffer;
+}
+
 type Scale = "pixel-to-letter" | "same-size";
 
 interface Settings {
