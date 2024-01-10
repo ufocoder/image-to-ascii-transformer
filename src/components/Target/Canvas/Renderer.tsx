@@ -16,14 +16,13 @@ export default function Renderer(props: RendererProps) {
   let stopAnimation: () => void;
 
   createEffect(() => {
-
     const frames = props.frames();
 
-    if (frames.length > 1) {
+    if (stopAnimation) {
+      stopAnimation();
+    }
 
-      if (stopAnimation) {
-        stopAnimation();
-      }
+    if (frames.length > 1) {
       
       const { start, stop } = createAnimation(frames, setLetters);
 
