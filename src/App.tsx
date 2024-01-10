@@ -10,12 +10,14 @@ export default function App() {
   const [imageContainer, setImageContainer] = createSignal<ImageContainer>();
   const [settings, setSettings] = createStore<Settings>({ ...defaultSettings });
 
+  const handleReset = () => setSettings({ ... defaultSettings });
+
   return (
     <Layout>
       <div class="Layout-sidebar">
         <UploadForm onLoad={setImageContainer} />
         <Show when={imageContainer}>
-          <SettingsForm settings={settings} onChange={setSettings} />
+          <SettingsForm settings={settings} onReset={handleReset} onChange={setSettings} />
         </Show>
       </div>
       <div class="Layout-main">

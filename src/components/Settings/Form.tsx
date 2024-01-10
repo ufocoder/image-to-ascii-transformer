@@ -1,6 +1,5 @@
 import { For } from "solid-js";
 import { SetStoreFunction } from "solid-js/store";
-import { defaultSettings } from "../../constants";
 import { settingsDescriptors } from "./descriptors";
 import CheckboxSettingField from "./fields/CheckboxField";
 import InputSettingField from "./fields/InputField";
@@ -9,12 +8,10 @@ import SelectSettingField from "./fields/SelectField";
 interface SettingsFormProps {
   settings: Settings;
   onChange: SetStoreFunction<Settings>;
+  onReset: () => void;
 }
 
 export default function SettingsForm(props: SettingsFormProps) {
-  const handleResetButtonClick = () => {
-    props.onChange({ ...defaultSettings });
-  };
 
   return (
     <form>
@@ -59,7 +56,7 @@ export default function SettingsForm(props: SettingsFormProps) {
         }}
       </For>
 
-      <button class="btn" type="button" onClick={handleResetButtonClick}>
+      <button class="btn" type="button" onClick={props.onReset}>
         Reset
       </button>
     </form>
