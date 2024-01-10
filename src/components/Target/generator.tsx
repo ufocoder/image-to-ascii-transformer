@@ -10,27 +10,27 @@ export default async function generateLetters(container: ImageContainer, setting
         const gif = parseGIF(container.buffer);
         const frames = decompressFrames(gif, true);
 
-        const letterFrames: LetterFrame[] = [];        
         const canvas = document.createElement('canvas');
         const baseFrame = frames[0];
 
         canvas.width = baseFrame.dims.left + baseFrame.dims.width;
         canvas.height = baseFrame.dims.top + baseFrame.dims.height;
 
-        frames.forEach(frame => {
-            const element = frameToImage(canvas, frame);
+        const letterFrames = Promise.all(frames.map(async frame => {
+            const element = await frameToImage(canvas, frame);
 
-            const { width, height, imageData } = settings.scale == "same-size"
+            const { width, height, imageData } = 
+                settings.scale == "same-size"
                 ? prepareImageScaledData(element, settings)
                 : prepareImageLettersData(element);
 
-            const letters = convertImageToLetters(settings, width, height, imageData);
+            const letters = convertImageToLetters(settings, width, height, imageData!);
 
-            letterFrames.push({
+            return {
                 delay: frame.delay,
                 letters
-            });
-        });
+            };
+        }));
 
         return letterFrames;
     }

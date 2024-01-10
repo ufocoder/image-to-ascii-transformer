@@ -39,26 +39,29 @@ export const convertImageToLetters = (
   return letters;
 };
 
-export const frameToImage = (canvas: HTMLCanvasElement, frame: ParsedFrame) => {
+export const frameToImage = (canvas: HTMLCanvasElement, frame: ParsedFrame): Promise<HTMLImageElement> => new Promise((resolve, reject) => {
   const imageData = new ImageData(frame.patch, frame.dims.width, frame.dims.height);
-  const ctx = canvas.getContext('2d', { willReadFrequently: true });
-  
+  const ctx = canvas.getContext('2d', { willReadFrequently: true })
+
   ctx!.putImageData(imageData, frame.dims.left, frame.dims.top);
   
   const element = new Image(canvas.width, canvas.height);
-//
+  
+  element.onload = () => resolve(element);
+  element.onerror = () => reject();
   element.src = canvas.toDataURL();
-
-  return element
-}
+});
 
 export function prepareImageScaledData(element: HTMLImageElement, settings: Settings) {
-  
-  const canvas = document.createElement("canvas");
-  const ctx = canvas.getContext("2d");
-
   const scaledHeight = Math.ceil(element.height / settings.textSize);
   const scaledWidth = Math.ceil(element.width / settings.textSize);
+
+  const canvas = document.createElement("canvas");
+
+  canvas.height = scaledHeight;
+  canvas.width = scaledWidth;
+
+  const ctx = canvas.getContext("2d");
 
   ctx!.drawImage(element, 0, 0, element.width, element.height, 0, 0, scaledWidth, scaledHeight);
 

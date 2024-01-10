@@ -14,8 +14,8 @@ export default function Target(props: TargetProps) {
   const [frames, setFrames] = createSignal<LetterFrame[]>([]);
   const [target, setTarget] = createSignal<Target>("canvas");
 
-
   createEffect(() => {
+
     (async () => {
       const container = props.imageContainer();
 
@@ -24,8 +24,6 @@ export default function Target(props: TargetProps) {
       }
 
       const frames = await generateFrames(container, props.settings)
-
-      console.log(frames);
 
       setFrames(frames);
     })();
