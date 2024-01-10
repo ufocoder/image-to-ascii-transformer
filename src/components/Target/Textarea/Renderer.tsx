@@ -1,20 +1,34 @@
-import { Accessor, Setter, createEffect } from "solid-js";
+import { Accessor, Setter, createEffect, createSignal } from "solid-js";
 import { getText } from "@app/components/Target/Textarea/lib";
+import { LetterFrame } from "../types";
 
 interface TextProps {
   ref: Accessor<HTMLTextAreaElement | undefined>;
   setRef: Setter<HTMLTextAreaElement | undefined>;
-  letters: Accessor<Letter[][]>;
+  frames: Accessor<LetterFrame[]>
   settings: Settings;
 }
 
 export default function Text(props: TextProps) {
+  const [letters, setLetters] = createSignal<Letter[][]>([]);
+
   createEffect(() => {
-    if (!props.ref() || !props.letters().length) {
+    if (!props.frames().length) {
+      return
+    }
+
+    const frame = props.frames()[0];
+
+    setLetters(frame.letters);
+  });
+
+  createEffect(() => {
+    if (!props.ref() || !letters().length) {
       return;
     }
 
-    const text = getText(props.letters());
+    const text = getText(letters());
+
     props.ref()!.value = text;
   });
 
@@ -22,8 +36,8 @@ export default function Text(props: TextProps) {
     <textarea
       readonly
       ref={props.setRef}
-      cols={props.letters().length}
-      rows={props.letters()[0].length}
+      cols={letters().length}
+      rows={letters().length ? letters()[0].length : undefined}
       style={{
         resize: "none",
         "font-family": "monospace",

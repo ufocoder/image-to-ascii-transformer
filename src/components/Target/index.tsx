@@ -1,72 +1,45 @@
-import { Show, Accessor, createSignal, createEffect, onCleanup } from "solid-js";
+import { Show, Accessor, createSignal, createEffect } from "solid-js";
 import Controls from "../Controls";
 import Canvas from "./Canvas";
 import Textarea from "./Textarea";
-import generateLetters from "./generator";
-import { createAnimation } from "@app/lib/animate";
+import generateFrames from "./generator";
 import { LetterFrame } from "./types";
+
 interface TargetProps {
   imageContainer: Accessor<ImageContainer | undefined>;
   settings: Settings;
 }
 
 export default function Target(props: TargetProps) {
-  const [letters, setLetters] = createSignal<Letter[][]>([]);
   const [frames, setFrames] = createSignal<LetterFrame[]>([]);
   const [target, setTarget] = createSignal<Target>("canvas");
 
-  let stopAnimation: () => void;
-
-  createEffect(async () => {
-    const container = props.imageContainer();
-
-    if (!container) {
-      return;
-    }
-
-    const letterFrames = await generateLetters(container, props.settings)
-
-    if (letterFrames.length > 1) {
-      setFrames(letterFrames);
-      return;
-    }
-
-    if (letterFrames.length === 1) {
-      setLetters(letterFrames[0].letters);
-      return;
-    }
-  });
 
   createEffect(() => {
-    if (frames().length > 1) {
+    (async () => {
+      const container = props.imageContainer();
 
-      if (stopAnimation) {
-        stopAnimation();
+      if (!container) {
+        return;
       }
-      
-      const { start, stop } = createAnimation(frames(), setLetters);
 
-      start();
+      const frames = await generateFrames(container, props.settings)
 
-      stopAnimation = stop;
-    }
+      console.log(frames);
+
+      setFrames(frames);
+    })();
   });
-
-  onCleanup(() => {
-    if (stopAnimation) {
-      stopAnimation();
-    }
-  })
 
   return (
     <>
       <Controls target={target} onChange={setTarget} />
-      <Show when={letters().length}>
+      <Show when={frames().length}>
         <Show when={target() === "canvas"}>
-          <Canvas settings={props.settings} letters={letters} />
+          <Canvas settings={props.settings} frames={frames} />
         </Show>
         <Show when={target() === "textarea"}>
-          <Textarea settings={props.settings} letters={letters} />
+          <Textarea settings={props.settings} frames={frames} />
         </Show>
       </Show>
     </>
