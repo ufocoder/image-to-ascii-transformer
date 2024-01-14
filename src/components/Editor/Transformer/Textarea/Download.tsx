@@ -22,7 +22,7 @@ export default function DownloadCanvas(props: DownloadCanvasProps) {
   };
 
   return (
-    <div class="text-center">
+    <div class="text-center mt-4">
       <a
         href={href()}
         onClick={handleClick}

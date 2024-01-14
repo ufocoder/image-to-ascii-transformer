@@ -16,8 +16,8 @@ export default function Textarea(props: CanvasProps) {
           Transformed image
         </h3>
         <Renderer frames={props.frames} settings={props.settings} />
+        <Download frames={props.frames} />
       </Container>
-      <Download frames={props.frames} />
     </>
   );
 }

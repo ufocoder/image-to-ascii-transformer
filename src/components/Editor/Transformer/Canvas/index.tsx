@@ -17,8 +17,8 @@ export default function Canvas(props: CanvasProps) {
           Transformed image
         </h3>
         <Renderer frames={props.frames} settings={props.settings} />
+        <Download frames={props.frames} settings={props.settings} mime={props.mime}/>
       </Container>
-      <Download frames={props.frames} settings={props.settings} mime={props.mime}/>
     </>
   );
 }

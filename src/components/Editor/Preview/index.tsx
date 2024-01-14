@@ -8,8 +8,8 @@ interface PreviewProps {
   
 export default function Preview(props: PreviewProps) {
     return (
-        <>
-            <Container>
+        <Container>
+            <div>
                 <h3 class="block text-center text-2xl mb-2">
                     Original image
                 </h3>
@@ -18,8 +18,8 @@ export default function Preview(props: PreviewProps) {
                     height={props.imageContainer()?.element.height}
                     width={props.imageContainer()?.element.width}
                 />
-            </Container>
-            <p class="text-center">
+            </div>
+            <p class="text-center my-2">
                 size is <span class="bg-blue-100 text-blue-800 text-xs font-medium px-1.5 py-0.5">{props.imageContainer()?.element.width}x{props.imageContainer()?.element.height}</span>,
                 mime-type <span class="bg-blue-100 text-blue-800 text-xs font-medium px-1.5 py-0.5">{props.imageContainer()?.mime}</span>
             </p>
@@ -30,6 +30,6 @@ export default function Preview(props: PreviewProps) {
             >
                 Reset 
             </button>
-        </>
+        </Container>
     )
 }
