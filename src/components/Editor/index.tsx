@@ -40,14 +40,14 @@ export default function Editor(props: TargetProps) {
       <div class="mx-auto mb-4">
         <Target target={target} onChange={setTarget} />
       </div>
-      <div class="flex flex-row items-start gap-x-4 mx-auto ">
-        <div class="flex-auto">
+      <div class="flex flex-col md:flex-row gap-x-4 gap-y-4">
+        <div class="md:flex-1 ">
           <Preview resetContainer={props.resetContainer} imageContainer={props.imageContainer} />
         </div>
-        <div class="grow-0 shrink-0 basis-60 ">
+        <div class="md:grow-0 md:shrink-0 md:basis-60">
           <Settings target={target} settings={props.settings} onReset={handleReset} onChange={props.setSettings} />
         </div>
-        <div class="flex-auto">
+        <div class="md:flex-1">
           <Transformer target={target} settings={props.settings} frames={frames} />
         </div>
       </div>

@@ -1,5 +1,4 @@
 import { Accessor, createEffect, createSignal, onCleanup } from "solid-js";
-import Container from "@app/components/Editor/Container";
 import { createAnimation } from "@app/lib/animate";
 import { drawLetters } from "./lib";
 
@@ -64,9 +63,5 @@ export default function Renderer(props: RendererProps) {
     drawLetters(context, props.settings, letters());
   });
 
-  return (
-    <Container>
-      <canvas ref={setRef} width="256" height="256" />
-    </Container>
-  );
+  return <canvas ref={setRef} />;
 }

@@ -14,7 +14,7 @@ export default function Target(props: TargetProps) {
       <Show when={props.target() === "canvas"}>
         <Canvas settings={props.settings} frames={props.frames} />
       </Show>
-      <Show when={props.target() === "textarea"}>
+      <Show when={props.target() === "text"}>
         <Textarea settings={props.settings} frames={props.frames} />
       </Show>
     </Show>

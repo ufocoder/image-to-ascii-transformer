@@ -21,7 +21,7 @@ interface Settings {
   invertColors: boolean;
 }
 
-type Target = "canvas" | "textarea";
+type Target = "canvas" | "text";
 
 interface Letter {
   letter: string;

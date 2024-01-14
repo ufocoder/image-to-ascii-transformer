@@ -43,19 +43,19 @@ export const settingsDescriptors: SettingDescriptor[] = [
     name: "textColor",
     type: "color",
     title: "Text color",
-    target: ['canvas', 'textarea'],
+    target: ['canvas'],
   },
   {
     name: "textSize",
     type: "number",
     title: "Text font size",
-    target: ['canvas', 'textarea'],
+    target: ['canvas'],
   },
   {
     name: "scale",
     type: "select",
     title: "Scale mode",
-    target: ['canvas', 'textarea'],
+    target: ['canvas', 'text'],
     options: [
       {
         title: "1 pixel to 1 letter",

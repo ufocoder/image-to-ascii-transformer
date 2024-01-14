@@ -18,7 +18,7 @@ const checkTarget = (editorTarget: Target) => (descriptor: SettingDescriptor) =>
 
 export default function SettingsForm(props: SettingsFormProps) {
   return (
-    <form class="bg-slate-50 p-4 border-grey-100">
+    <form class="bg-slate-100 p-4 border-grey-100">
       <For each={settingsDescriptors.filter(checkTarget(props.target()))}>
         {(settingsDescriptor) => {
           const { name, type, title, } = settingsDescriptor;

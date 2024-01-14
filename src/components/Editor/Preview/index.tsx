@@ -10,6 +10,9 @@ export default function Preview(props: PreviewProps) {
     return (
         <>
             <Container>
+                <h3 class="block text-center text-2xl mb-2">
+                    Original image
+                </h3>
                 <img 
                     src={props.imageContainer()?.element.src} 
                     height={props.imageContainer()?.element.height}
@@ -17,12 +20,12 @@ export default function Preview(props: PreviewProps) {
                 />
             </Container>
             <p class="text-center">
-                orinal size is {props.imageContainer()?.element.width}x{props.imageContainer()?.element.height},
-                mime-type {props.imageContainer()?.mime}
+                size is <span class="bg-blue-100 text-blue-800 text-xs font-medium px-1.5 py-0.5">{props.imageContainer()?.element.width}x{props.imageContainer()?.element.height}</span>,
+                mime-type <span class="bg-blue-100 text-blue-800 text-xs font-medium px-1.5 py-0.5">{props.imageContainer()?.mime}</span>
             </p>
             <button 
                 type="button"
-                class="mx-auto px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                class="block my-2 mx-auto px-3 py-2 text-xs font-medium text-center text-white bg-slate-900 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
                 onClick={() => props.resetContainer()}
             >
                 Reset 
