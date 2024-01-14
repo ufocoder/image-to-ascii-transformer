@@ -11,7 +11,11 @@ type ImagePreset = {
 const ImagePresets: ImagePreset[] = [
     {
         title: 'Animated GIF: 300x400 ',
-        src: import.meta.env.BASE_URL + '/animated-300-400.gif'
+        src: import.meta.env.BASE_URL + '/animated-300-400.gif',
+        settings: {
+            textSize: 4,
+            colored: true
+        }
     },
     {
         title: 'GIF: 48x48',
