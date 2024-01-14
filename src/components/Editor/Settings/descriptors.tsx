@@ -49,7 +49,7 @@ export const settingsDescriptors: SettingDescriptor[] = [
     name: "textSize",
     type: "number",
     title: "Text font size",
-    target: ['canvas'],
+    target: ['canvas', 'text'],
   },
   {
     name: "scale",

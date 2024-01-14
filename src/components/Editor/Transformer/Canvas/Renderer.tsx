@@ -63,5 +63,5 @@ export default function Renderer(props: RendererProps) {
     drawLetters(context, props.settings, letters());
   });
 
-  return <canvas ref={setRef} />;
+  return <canvas ref={setRef} style={{ ['max-width']: '100%' }} />;
 }

@@ -4,6 +4,7 @@ import Download from "./Download";
 import Renderer from "./Renderer";
 
 interface CanvasProps {
+  mime: string;
   frames: Accessor<LetterFrame[]>;
   settings: Settings;
 }
@@ -17,7 +18,7 @@ export default function Canvas(props: CanvasProps) {
         </h3>
         <Renderer frames={props.frames} settings={props.settings} />
       </Container>
-      <Download frames={props.frames} settings={props.settings} />
+      <Download frames={props.frames} settings={props.settings} mime={props.mime}/>
     </>
   );
 }

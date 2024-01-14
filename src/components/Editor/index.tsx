@@ -11,7 +11,7 @@ import Settings from "./Settings";
 interface TargetProps {
   settings: Settings;
   setSettings: SetStoreFunction<Settings>;
-  imageContainer: Accessor<ImageContainer | undefined>;
+  imageContainer: Accessor<ImageContainer>;
   resetContainer: () => void;
 }
 
@@ -48,7 +48,7 @@ export default function Editor(props: TargetProps) {
           <Settings target={target} settings={props.settings} onReset={handleReset} onChange={props.setSettings} />
         </div>
         <div class="md:flex-1">
-          <Transformer target={target} settings={props.settings} frames={frames} />
+          <Transformer target={target} settings={props.settings} mime={props.imageContainer()!.mime} frames={frames} />
         </div>
       </div>
     </div>
