@@ -1,28 +1,33 @@
 import { Show, createSignal } from "solid-js";
 import { createStore } from "solid-js/store";
-import Layout from "./components/Layout";
-import SettingsForm from "./components/Settings";
-import UploadForm from "./components/Upload";
 import { defaultSettings } from "./constants";
-import Target from "./components/Target";
+import Layout from "./components/Layout";
+import Editor from "./components/Editor";
+import UploadForm from "./components/Upload";
 
 export default function App() {
   const [imageContainer, setImageContainer] = createSignal<ImageContainer>();
   const [settings, setSettings] = createStore<Settings>({ ...defaultSettings });
+  const resetContainer = () => setImageContainer()
 
-  const handleReset = () => setSettings({ ... defaultSettings });
+  const handleLoad = (imageContainer: ImageContainer, settings?: Optional<Settings>) => {
+    if (settings) {
+      setSettings({
+        ...defaultSettings,
+        ...settings
+      })
+    }
+    setImageContainer(imageContainer);
+  }
 
   return (
     <Layout>
-      <div class="Layout-sidebar">
-        <UploadForm onLoad={setImageContainer} />
-        <Show when={imageContainer}>
-          <SettingsForm settings={settings} onReset={handleReset} onChange={setSettings} />
-        </Show>
-      </div>
-      <div class="Layout-main">
-        <Target settings={settings} imageContainer={imageContainer} />
-      </div>
+      <Show when={!imageContainer()}>
+        <UploadForm onLoad={handleLoad} />
+      </Show>
+      <Show when={imageContainer()}>
+        <Editor imageContainer={imageContainer} resetContainer={resetContainer} settings={settings} setSettings={setSettings} />
+      </Show>
     </Layout>
   );
 }

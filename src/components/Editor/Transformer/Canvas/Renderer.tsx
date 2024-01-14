@@ -1,16 +1,15 @@
-import { Accessor, Setter, createEffect, createSignal, onCleanup } from "solid-js";
-import { drawLetters } from "@app/lib/canvas";
+import { Accessor, createEffect, createSignal, onCleanup } from "solid-js";
+import Container from "@app/components/Editor/Container";
 import { createAnimation } from "@app/lib/animate";
-import { LetterFrame } from "../types";
+import { drawLetters } from "./lib";
 
 interface RendererProps {
-  ref: Accessor<HTMLCanvasElement | undefined>;
-  setRef: Setter<HTMLCanvasElement | undefined>;
   frames: Accessor<LetterFrame[]>
   settings: Settings;
 }
 
 export default function Renderer(props: RendererProps) {
+  const [ref, setRef] = createSignal<HTMLCanvasElement | undefined>();
   const [letters, setLetters] = createSignal<Letter[][]>([]);
 
   let stopAnimation: () => void;
@@ -45,7 +44,7 @@ export default function Renderer(props: RendererProps) {
   })
 
   createEffect(() => {
-    if (!props.ref() || !letters().length) {
+    if (!ref() || !letters().length) {
       return;
     }
 
@@ -53,10 +52,10 @@ export default function Renderer(props: RendererProps) {
     const height = letters()[0].length;
     const width = letters().length;
 
-    props.ref()!.height = height * ratio;
-    props.ref()!.width = width * ratio;
+    ref()!.height = height * ratio;
+    ref()!.width = width * ratio;
 
-    const context = props.ref()!.getContext("2d");
+    const context = ref()!.getContext("2d");
 
     if (!context) {
       return;
@@ -65,5 +64,9 @@ export default function Renderer(props: RendererProps) {
     drawLetters(context, props.settings, letters());
   });
 
-  return <canvas ref={props.setRef} width="256" height="256" />;
+  return (
+    <Container>
+      <canvas ref={setRef} width="256" height="256" />
+    </Container>
+  );
 }

@@ -1,23 +1,27 @@
-import { For } from "solid-js";
+import { Accessor, For } from "solid-js";
 import { SetStoreFunction } from "solid-js/store";
-import { settingsDescriptors } from "./descriptors";
+import { SettingDescriptor, settingsDescriptors } from "./descriptors";
 import CheckboxSettingField from "./fields/CheckboxField";
 import InputSettingField from "./fields/InputField";
 import SelectSettingField from "./fields/SelectField";
 
 interface SettingsFormProps {
+  target: Accessor<Target>;
   settings: Settings;
   onChange: SetStoreFunction<Settings>;
   onReset: () => void;
 }
 
-export default function SettingsForm(props: SettingsFormProps) {
+const checkTarget = (editorTarget: Target) => (descriptor: SettingDescriptor) => 
+  descriptor.target ? descriptor.target.includes(editorTarget) : true
 
+
+export default function SettingsForm(props: SettingsFormProps) {
   return (
-    <form>
-      <For each={settingsDescriptors}>
+    <form class="bg-slate-50 p-4 border-grey-100">
+      <For each={settingsDescriptors.filter(checkTarget(props.target()))}>
         {(settingsDescriptor) => {
-          const { name, type, title } = settingsDescriptor;
+          const { name, type, title, } = settingsDescriptor;
           switch (type) {
             case "boolean":
               return (
@@ -56,7 +60,7 @@ export default function SettingsForm(props: SettingsFormProps) {
         }}
       </For>
 
-      <button class="btn" type="button" onClick={props.onReset}>
+      <button class="btn" type="button" onClick={() => props.onReset()}>
         Reset
       </button>
     </form>

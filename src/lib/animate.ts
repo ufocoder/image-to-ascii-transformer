@@ -1,5 +1,3 @@
-import { LetterFrame } from "@app/components/Target/types";
-
 export function createAnimation(letterFrames: LetterFrame[], onTick: (letters: Letter[][]) => void) {
     const frames = letterFrames;
     let frameIndex = 0;

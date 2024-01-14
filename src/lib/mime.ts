@@ -15,7 +15,7 @@ const extractMimeType = (header: string) => {
     }
 }
 
-export const getMimeType = async (blob: Blob) => new Promise((resolve, reject) => {
+export const getMimeType = async (blob: Blob): Promise<string> => new Promise((resolve, reject) => {
     const fileReader = new FileReader();
     
     fileReader.onloadend = () => {

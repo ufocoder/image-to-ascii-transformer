@@ -1,36 +1,56 @@
 import { For } from "solid-js";
 import { LoadCallback } from "./types";
+import { getMimeType } from "@app/lib/mime";
 
 type ImagePreset = {
     title: string;
     src: string;
+    settings?: Optional<Settings>;
 }
 
 const ImagePresets: ImagePreset[] = [
     {
-        title: 'JPEG: Cat',
-        src: import.meta.env.BASE_URL + '/cat.jpg',
+        title: 'Animated GIF: 300x400 ',
+        src: import.meta.env.BASE_URL + '/animated-300-400.gif'
     },
     {
-        title: 'PNG: Cat 48x48',
+        title: 'GIF: 48x48',
+        src: import.meta.env.BASE_URL + '/cat-48.gif',
+        settings: {
+            textSize: 2,
+        }
+    },
+    {
+        title: 'GIF: 512x512',
+        src: import.meta.env.BASE_URL + '/cat-512.gif',
+        settings: {
+            textSize: 7,
+            colored: true
+        }
+    },
+    {
+        title: 'PNG: 48x48',
         src: import.meta.env.BASE_URL + '/cat-48.png',
+        settings: {
+            textSize: 2,
+        }
     },
     {
-        title: 'PNG: Cat 256x256',
-        src: import.meta.env.BASE_URL + '/cat-256.png'
+        title: 'PNG: 512x512',
+        src: import.meta.env.BASE_URL + '/cat-512.png',
+        settings: {
+            textSize: 7,
+            colored: true
+        }
     },
     {
-        title: 'GIF: Animated cat',
-        src: import.meta.env.BASE_URL + '/n-frames-2.gif'
+        title: 'JPEG: 225x225',
+        src: import.meta.env.BASE_URL + '/woman-225.jpeg',
+        settings: {
+            textSize: 2,
+            colored: true
+        }
     },
-    {
-        title: 'GIF: Animated hourse',
-        src: import.meta.env.BASE_URL + '/n-frames-1.gif'
-    },
-    {
-        title: 'GIF: Not animated hourses',
-        src: import.meta.env.BASE_URL + '/1-frame.gif'
-    }  
 ];
 
 interface UploadPresetProps {
@@ -38,31 +58,35 @@ interface UploadPresetProps {
 }
 
 export default function UploadPreset(props: UploadPresetProps) {
-    const selectPreset = async (src: string) => {
+    const selectPreset = async (src: string, settings?: Optional<Settings>) => {
         const response = await fetch(src)
         const arrayBuffer = await response.arrayBuffer();
+        const mime = await getMimeType(new Blob([arrayBuffer]));
 
         const element = new Image();
         
         element.onload = () => {
             props.onLoad({
+                mime,
                 element,
                 buffer: arrayBuffer
-            });
+            }, settings);
         };
 
         element.src = src;
     };
 
     return (
-        <ul>
-            <For each={ImagePresets}>{({ title, src}) => (
-                <li>
-                    <a href="#" onClick={() => selectPreset(src)}>
-                        {title}
-                    </a>
-                </li>
+        <div class="flex flex-row gap-x-2 gap-y-2 flex-wrap justify-center">
+            <For each={ImagePresets}>{({ title, src, settings }) => (
+                <button 
+                    type="button" 
+                    onClick={() => selectPreset(src, settings)}
+                    class="px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                >
+                    {title}
+                </button>
             )}</For>
-        </ul>
+        </div>
     )
 }

@@ -1,12 +1,8 @@
 import { decompressFrames, parseGIF } from "gifuct-js";
 import { convertImageToLetters, frameToImage, prepareImageLettersData, prepareImageScaledData } from "@app/lib/target";
-import { getMimeType } from "@app/lib/mime";
-import { LetterFrame } from "./types";
 
-export default async function generateLetters(container: ImageContainer, settings: Settings): Promise<LetterFrame[]> {
-    const mimeType = await getMimeType(new Blob([container.buffer]));
-
-    if (mimeType === "image/gif") {
+export async function createFrameLetters(container: ImageContainer, settings: Settings): Promise<LetterFrame[]> {
+    if (container.mime === "image/gif") {
         const gif = parseGIF(container.buffer);
         const frames = decompressFrames(gif, true);
 

@@ -3,17 +3,21 @@ import UploadPreset from "./Preset";
 import { LoadCallback } from "./types";
 
 interface UploadProps {
-    onLoad: LoadCallback
+  onLoad: LoadCallback
 }
 
 export default function Upload(props: UploadProps) {
-    return (
-        <div>
-            <h3>Upload image</h3>
-            <UploadForm onLoad={props.onLoad} />
-
-            <h3>Image presets</h3>
-            <UploadPreset onLoad={props.onLoad} />
-        </div>
-    );
+  return (
+    <div class="max-w-3xl mx-auto">
+      <div class="mb-4">
+        <UploadForm onLoad={props.onLoad} />
+      </div>
+      <p class="text-base text-center my-4">
+        Or you can use one of the preset images 
+      </p>
+      <div>
+        <UploadPreset onLoad={props.onLoad} />
+      </div>
+    </div>
+  );
 }

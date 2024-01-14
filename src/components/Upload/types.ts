@@ -1,1 +1,1 @@
-export type LoadCallback = (container: ImageContainer) => void
+export type LoadCallback = (container: ImageContainer, settings?: Optional<Settings>) => void
