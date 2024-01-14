@@ -1,4 +1,5 @@
 import { Accessor, createEffect, createSignal } from "solid-js";
+
 import { getText } from "@app/components/Editor/Transformer/Textarea/lib";
 
 interface TextProps {
@@ -27,12 +28,12 @@ export default function Text(props: TextProps) {
       style={{
         resize: "none",
         "font-family": "monospace",
-        "font-size": `${props.settings.textSize}px`,
+        "font-size": `8px`,
         "background-color": props.settings.backgroundColor,
         color: props.settings.textColor,
       }}
     >
       {letters().length ? getText(letters()) : null}
-      </textarea>
+    </textarea>
   );
 }
