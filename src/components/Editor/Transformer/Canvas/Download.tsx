@@ -25,17 +25,24 @@ export default function DownloadCanvas(props: DownloadCanvasProps) {
     }
     
     const frame = frames[0];
+    
+    const ratio = props.settings.textSize;
+    const height = frame.letters[0].length;
+    const width = frame.letters.length;
+    
     const canvas = document.createElement("canvas");
     const context = canvas!.getContext("2d");
-    // @TODO: pass width and height
 
+    canvas.height = height * ratio;
+    canvas.width = width * ratio;
+    
     drawLetters(context!, props.settings, frame.letters);    
     setHref(canvas.toDataURL(props.mime));
   };
 
 
   return (
-    <div class="text-center">
+    <div class="text-center mt-4">
       <a
         href={href()}
         onClick={handleClick}
