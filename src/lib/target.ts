@@ -39,18 +39,30 @@ export const convertImageToLetters = (
   return letters;
 };
 
-export const frameToImage = (canvas: HTMLCanvasElement, frame: ParsedFrame): Promise<HTMLImageElement> => new Promise((resolve, reject) => {
-  const imageData = new ImageData(frame.patch, frame.dims.width, frame.dims.height);
-  const ctx = canvas.getContext('2d', { willReadFrequently: true })
+export const frameToImage = (canvas: HTMLCanvasElement, frame: ParsedFrame): Promise<HTMLImageElement> =>
+  new Promise((resolve, reject) => {
+    const ctx = canvas.getContext("2d", { willReadFrequently: true });
+    const prevImageData = ctx!.getImageData(frame.dims.left, frame.dims.top, frame.dims.width, frame.dims.height);
 
-  ctx!.putImageData(imageData, frame.dims.left, frame.dims.top);
-  
-  const element = new Image(canvas.width, canvas.height);
-  
-  element.onload = () => resolve(element);
-  element.onerror = () => reject();
-  element.src = canvas.toDataURL();
-});
+    for (let i = 3; i < frame.patch.length; i += 4) {
+      if (frame.patch[i] !== 0) continue;
+
+      frame.patch[i - 3] = prevImageData.data[i - 3];
+      frame.patch[i - 2] = prevImageData.data[i - 2];
+      frame.patch[i - 1] = prevImageData.data[i - 1];
+      frame.patch[i] = prevImageData.data[i];
+    }
+
+    const imageData = new ImageData(frame.patch, frame.dims.width, frame.dims.height);
+
+    ctx!.putImageData(imageData, frame.dims.left, frame.dims.top);
+
+    const element = new Image(canvas.width, canvas.height);
+
+    element.onload = () => resolve(element);
+    element.onerror = () => reject();
+    element.src = canvas.toDataURL();
+  });
 
 export function prepareImageScaledData(element: HTMLImageElement, settings: Settings) {
   const scaledHeight = Math.ceil(element.height / settings.textSize);
