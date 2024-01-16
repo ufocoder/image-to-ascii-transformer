@@ -7,11 +7,10 @@ import Transformer from "./Transformer";
 import Target from "./Target";
 import Settings from "./Settings";
 
-
 interface TargetProps {
   settings: Settings;
   setSettings: SetStoreFunction<Settings>;
-  imageContainer: Accessor<ImageContainer>;
+  imageContainer: Accessor<ImageContainer | undefined>;
   resetContainer: () => void;
 }
 

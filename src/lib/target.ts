@@ -1,9 +1,7 @@
 import { ParsedFrame } from "gifuct-js";
 
-const getAlphabetLetter = (averageColor: number, alphabet: string, invert: boolean) => {
-  let letterIndex = Math.floor((averageColor / 256) * alphabet.length);
-
-  if (invert) letterIndex = alphabet.length - 1 - letterIndex;
+const getAlphabetLetter = (averageColor: number, alphabet: string) => {
+  const letterIndex = Math.floor((averageColor / 256) * alphabet.length);
 
   return alphabet[letterIndex];
 };
@@ -28,7 +26,7 @@ export const convertImageToLetters = (
 
       const color = "#" + r.toString(16) + g.toString(16) + b.toString(16);
       const averageColor = (r + g + b) / 3;
-      const letter = getAlphabetLetter(averageColor, settings.alphabet, settings.invertColors);
+      const letter = getAlphabetLetter(averageColor, settings.alphabet);
 
       columnOfLetters.push({ letter, color });
     }
