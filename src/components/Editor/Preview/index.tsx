@@ -13,7 +13,8 @@ export default function Preview(props: PreviewProps) {
                 <h3 class="block text-center text-2xl mb-2">
                     Original image
                 </h3>
-                <img 
+                <img
+                    class="mx-auto"
                     src={props.imageContainer()?.element.src} 
                     height={props.imageContainer()?.element.height}
                     width={props.imageContainer()?.element.width}
