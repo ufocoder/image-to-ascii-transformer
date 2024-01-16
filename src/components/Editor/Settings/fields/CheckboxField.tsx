@@ -8,7 +8,7 @@ interface CheckboxSettingFieldProps extends SettingSingleDescriptor {
 
 export default function CheckboxSettingField(props: CheckboxSettingFieldProps) {
   return (
-  <div class="flex items-center mb-4">
+  <div class="flex items-center">
       <input
         id={`settings-${props.name}`}
         type="checkbox"

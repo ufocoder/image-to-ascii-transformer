@@ -1,7 +1,7 @@
 interface SettingBaseDescriptor {
   title: string;
   name: keyof Settings;
-  target?: Target[];
+  when?: (target: Target, settings: Settings) => boolean
 }
 
 export interface SettingSingleDescriptor extends SettingBaseDescriptor {
@@ -22,40 +22,9 @@ export type SettingDescriptor = SettingSingleDescriptor | SettingMultipleDescrip
 
 export const settingsDescriptors: SettingDescriptor[] = [
   {
-    name: "colored",
-    type: "boolean",
-    title: "Colored",
-    target: ['canvas'],
-  },
-  {
-    name: "invertColors",
-    type: "boolean",
-    title: "Invert Colors",
-    target: ['canvas'],
-  },
-  {
-    name: "backgroundColor",
-    type: "color",
-    title: "Background color",
-    target: ['canvas'],
-  },
-  {
-    name: "textColor",
-    type: "color",
-    title: "Text color",
-    target: ['canvas'],
-  },
-  {
-    name: "textSize",
-    type: "number",
-    title: "Text font size",
-    target: ['canvas', 'text'],
-  },
-  {
     name: "scale",
     type: "select",
     title: "Scale mode",
-    target: ['canvas', 'text'],
     options: [
       {
         title: "1 pixel to 1 letter",
@@ -67,4 +36,27 @@ export const settingsDescriptors: SettingDescriptor[] = [
       },
     ],
   },
+  {
+    name: "textSize",
+    type: "number",
+    title: "Text font size",
+  },
+  {
+    name: "colored",
+    type: "boolean",
+    title: "Colored",
+    when: (target) => target === "canvas",
+  },
+  {
+    name: "textColor",
+    type: "color",
+    title: "Text color",
+    when: (target, settings) => target === "canvas" && !settings.colored,
+  },
+  {
+    name: "backgroundColor",
+    type: "color",
+    title: "Background color",
+    when: (target, settings) => target === "canvas" && !settings.colored,
+  }
 ];

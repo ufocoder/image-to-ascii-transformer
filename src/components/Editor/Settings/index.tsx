@@ -12,14 +12,14 @@ interface SettingsFormProps {
   onReset: () => void;
 }
 
-const checkTarget = (editorTarget: Target) => (descriptor: SettingDescriptor) => 
-  descriptor.target ? descriptor.target.includes(editorTarget) : true
+const checkDescriptor = (editorTarget: Target, editorSettings: Settings) => (descriptor: SettingDescriptor) => 
+  descriptor.when ? descriptor.when(editorTarget, editorSettings) : true
 
 
 export default function SettingsForm(props: SettingsFormProps) {
   return (
-    <form class="bg-slate-100 p-4 border-grey-100 rounded-lg">
-      <For each={settingsDescriptors.filter(checkTarget(props.target()))}>
+    <form class="flex flex-col gap-y-4 bg-slate-100 p-4 border-grey-100 rounded-lg">
+      <For each={settingsDescriptors.filter(checkDescriptor(props.target(), props.settings))}>
         {(settingsDescriptor) => {
           const { name, type, title, } = settingsDescriptor;
           switch (type) {
@@ -60,7 +60,7 @@ export default function SettingsForm(props: SettingsFormProps) {
         }}
       </For>
 
-      <button class="btn" type="button" onClick={() => props.onReset()}>
+      <button class="btn bg-white" type="button" onClick={() => props.onReset()}>
         Reset
       </button>
     </form>
