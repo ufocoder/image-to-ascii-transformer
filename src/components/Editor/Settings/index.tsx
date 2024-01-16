@@ -18,7 +18,7 @@ const checkDescriptor = (editorTarget: Target, editorSettings: Settings) => (des
 
 export default function SettingsForm(props: SettingsFormProps) {
   return (
-    <form class="flex flex-col gap-y-4 bg-slate-100 p-4 border-grey-100 rounded-lg">
+    <form class="flex flex-col gap-y-4 bg-slate-100 p-4 border-grey-100 rounded-lg min-h-full">
       <For each={settingsDescriptors.filter(checkDescriptor(props.target(), props.settings))}>
         {(settingsDescriptor) => {
           const { name, type, title, } = settingsDescriptor;

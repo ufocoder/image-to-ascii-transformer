@@ -70,8 +70,9 @@ export default function Renderer(props: RendererProps) {
         <p class="text-center my-2">
             size is 
             <span class="bg-blue-100 text-blue-800 text-xs font-medium px-1.5 py-0.5">
-              {letters().length * props.settings.textSize}x{letters()[0].length * props.settings.textSize} pixels
+              {letters().length * props.settings.textSize}x{letters()[0].length * props.settings.textSize}
             </span>
+            {' '}pixels
         </p>
       </Show>
     </>

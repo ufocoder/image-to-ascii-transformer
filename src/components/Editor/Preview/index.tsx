@@ -21,7 +21,9 @@ export default function Preview(props: PreviewProps) {
                 />
             </div>
             <p class="text-center my-2">
-                size is <span class="bg-blue-100 text-blue-800 text-xs font-medium px-1.5 py-0.5">{props.imageContainer()?.element.width}x{props.imageContainer()?.element.height} pixels</span>,
+                size is <span class="bg-blue-100 text-blue-800 text-xs font-medium px-1.5 py-0.5">{props.imageContainer()?.element.width}x{props.imageContainer()?.element.height}</span>{' '}pixels
+            </p>
+            <p class="text-center my-2">
                 mime-type <span class="bg-blue-100 text-blue-800 text-xs font-medium px-1.5 py-0.5">{props.imageContainer()?.mime}</span>
             </p>
             <button 
