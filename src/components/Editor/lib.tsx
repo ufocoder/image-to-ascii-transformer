@@ -6,6 +6,7 @@ export async function createFrameLetters(container: ImageContainer, settings: Se
         const gif = parseGIF(container.buffer);
         const frames = decompressFrames(gif, true);
 
+        const scale = settings.scale == "same-size";
         const canvas = document.createElement('canvas');
         const baseFrame = frames[0];
 
@@ -14,9 +15,7 @@ export async function createFrameLetters(container: ImageContainer, settings: Se
 
         const letterFrames = Promise.all(frames.map(async frame => {
             const element = await frameToImage(canvas, frame);
-
-            const { width, height, imageData } = 
-                settings.scale == "same-size"
+            const { width, height, imageData } = scale
                 ? prepareImageScaledData(element, settings)
                 : prepareImageLettersData(element);
 
