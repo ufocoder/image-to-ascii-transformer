@@ -62,9 +62,9 @@ export const frameToImage = (canvas: HTMLCanvasElement, frame: ParsedFrame): Pro
     element.src = canvas.toDataURL();
   });
 
-export function prepareImageScaledData(element: HTMLImageElement, settings: Settings) {
-  const scaledHeight = Math.ceil(element.height / settings.textSize);
-  const scaledWidth = Math.ceil(element.width / settings.textSize);
+export function prepareImageScaledData(element: HTMLImageElement, textSize: Settings['textSize']) {
+  const scaledHeight = Math.ceil(element.height / textSize);
+  const scaledWidth = Math.ceil(element.width / textSize);
 
   const canvas = document.createElement("canvas");
 
