@@ -13,14 +13,12 @@ export const drawLetters = (context: CanvasRenderingContext2D, settings: Setting
   context.textBaseline = "top";
 
   // draw letters
-  const step = 1;
-
-  for (let x = 0; x < width; x += step) {
-    for (let y = 0; y < height; y += step) {
+  for (let x = 0; x < width; x++) {
+    for (let y = 0; y < height; y++) {
       const { letter, color } = letters[x][y];
 
       context.fillStyle = settings.colored ? color : settings.textColor;
-      context.fillText(letter, (x / step) * settings.textSize, (y / step) * settings.textSize, settings.textSize);
+      context.fillText(letter, x * settings.textSize, y * settings.textSize, settings.textSize);
     }
   }
 };
