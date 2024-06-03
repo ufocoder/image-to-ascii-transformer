@@ -20,12 +20,14 @@ export default function Preview(props: PreviewProps) {
                     width={props.imageContainer()?.element.width}
                 />
             </div>
-            <p class="text-center my-2">
-                size is <span class="bg-blue-100 text-blue-800 text-xs font-medium px-1.5 py-0.5">{props.imageContainer()?.element.width}x{props.imageContainer()?.element.height}</span>{' '}pixels
-            </p>
-            <p class="text-center my-2">
-                mime-type <span class="bg-blue-100 text-blue-800 text-xs font-medium px-1.5 py-0.5">{props.imageContainer()?.mime}</span>
-            </p>
+            <div class="my-2">
+                <p class="text-center">
+                    size is <span class="bg-blue-100 text-blue-800 text-xs font-medium px-1.5 py-0.5">{props.imageContainer()?.element.width}x{props.imageContainer()?.element.height}</span>{' '}pixels
+                </p>
+                <p class="text-center">
+                    mime-type <span class="bg-blue-100 text-blue-800 text-xs font-medium px-1.5 py-0.5">{props.imageContainer()?.mime}</span>
+                </p>
+            </div>
             <button 
                 type="button"
                 class="block my-2 mx-auto px-3 py-2 text-xs font-medium text-center text-white bg-slate-900 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
