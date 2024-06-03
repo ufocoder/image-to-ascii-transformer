@@ -1,6 +1,6 @@
 {
   "name": "vite-template-solid",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "",
   "scripts": {
     "start": "vite",
@@ -10,22 +10,24 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@types/node": "^20.11.0",
-    "@typescript-eslint/eslint-plugin": "^6.18.1",
-    "@typescript-eslint/parser": "^6.18.1",
-    "autoprefixer": "^10.4.16",
+    "@types/node": "^20.13.0",
+    "@types/omggif": "^1.0.5",
+    "@typescript-eslint/eslint-plugin": "^6.19.0",
+    "@typescript-eslint/parser": "^6.19.0",
+    "autoprefixer": "^10.4.19",
     "eslint": "^8.56.0",
-    "eslint-plugin-solid": "^0.13.1",
-    "postcss": "^8.4.33",
-    "tailwindcss": "^3.4.1",
-    "typescript": "^5.3.3",
-    "vite": "^5.0.11",
+    "eslint-plugin-solid": "^0.14.0",
+    "postcss": "^8.4.38",
+    "tailwindcss": "^3.4.3",
+    "typescript": "^5.4.5",
+    "vite": "^5.2.12",
     "vite-plugin-eslint": "^1.8.1",
-    "vite-plugin-solid": "^2.8.0"
+    "vite-plugin-solid": "^2.10.2"
   },
   "dependencies": {
-    "@primer/css": "^21.1.1",
+    "@primer/css": "^21.3.1",
     "gifuct-js": "^2.1.2",
-    "solid-js": "^1.8.11"
+    "omggif": "^1.0.10",
+    "solid-js": "^1.8.17"
   }
 }
