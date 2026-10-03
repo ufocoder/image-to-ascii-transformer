@@ -1,4 +1,4 @@
-import { Accessor, Show, createEffect, createSignal } from "solid-js";
+import { Accessor, Show } from "solid-js";
 
 import { getText } from "@app/components/Editor/Transformer/Textarea/lib";
 
@@ -8,17 +8,7 @@ interface TextProps {
 }
 
 export default function Text(props: TextProps) {
-  const [letters, setLetters] = createSignal<Letter[][]>([]);
-
-  createEffect(() => {
-    if (!props.frames().length) {
-      return
-    }
-
-    const frame = props.frames()[0];
-
-    setLetters(frame.letters);
-  });
+  const letters = () => props.frames()[0]?.letters ?? [];
 
   return (
     <>
