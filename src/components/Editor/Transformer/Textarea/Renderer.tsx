@@ -4,11 +4,12 @@ import { getText } from "@app/components/Editor/Transformer/Textarea/lib";
 
 interface TextProps {
   frames: Accessor<LetterFrame[]>
+  frameIndex: Accessor<number>;
   settings: Settings;
 }
 
 export default function Text(props: TextProps) {
-  const letters = () => props.frames()[0]?.letters ?? [];
+  const letters = () => props.frames()[props.frameIndex()]?.letters ?? [];
 
   return (
     <>

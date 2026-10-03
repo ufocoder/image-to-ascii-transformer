@@ -1,8 +1,9 @@
-import { Accessor, Show, createSignal } from "solid-js";
+import { Accessor, createSignal } from "solid-js";
 import { getText } from "./lib";
 
 interface DownloadCanvasProps {
   frames: Accessor<LetterFrame[]>
+  frameIndex: Accessor<number>;
 }
 
 export default function DownloadCanvas(props: DownloadCanvasProps) {
@@ -15,7 +16,7 @@ export default function DownloadCanvas(props: DownloadCanvasProps) {
       return
     }
 
-    const text = getText(frames[0].letters);
+    const text = getText(frames[props.frameIndex()].letters);
     const blob = new Blob([text], { type: "text/plain" });
 
     setHref(URL.createObjectURL(blob));
@@ -31,9 +32,6 @@ export default function DownloadCanvas(props: DownloadCanvasProps) {
       >
         Download
       </a>
-      <Show when={props.frames().length > 1}>
-        <p class="text-xs px-2 inline italic">Only first frame</p>
-      </Show>
     </div>
   );
 }
