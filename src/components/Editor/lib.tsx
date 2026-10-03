@@ -1,5 +1,5 @@
 import { decompressFrames, parseGIF } from "gifuct-js";
-import { convertImageToLetters, frameToImage, prepareImageLettersData, prepareImageScaledData } from "@app/lib/target";
+import { convertImageToLetters, createGifFrameComposer, prepareFrameData, prepareImageLettersData, prepareImageScaledData } from "@app/lib/target";
 
 export async function createFrameLetters(container: ImageContainer, settings: Settings): Promise<LetterFrame[]> {
     const textSize = settings.textSize;
@@ -10,24 +10,23 @@ export async function createFrameLetters(container: ImageContainer, settings: Se
         const frames = decompressFrames(gif, true);
 
         const canvas = document.createElement('canvas');
-        const baseFrame = frames[0];
+        canvas.width = gif.lsd.width;
+        canvas.height = gif.lsd.height;
 
-        canvas.width = baseFrame.dims.left + baseFrame.dims.width;
-        canvas.height = baseFrame.dims.top + baseFrame.dims.height;
+        const composeFrame = createGifFrameComposer(canvas);
+        const letterFrames: LetterFrame[] = [];
 
-        const letterFrames = Promise.all(frames.map(async frame => {
-            const element = await frameToImage(canvas, frame);
-            const { width, height, imageData } = scale == "same-size"
-                ? prepareImageScaledData(element, textSize)
-                : prepareImageLettersData(element);
+        for (const frame of frames) {
+            const composedFrame = composeFrame(frame);
+            const { width, height, imageData } = prepareFrameData(composedFrame, textSize, scale);
 
-            const letters = convertImageToLetters(settings, width, height, imageData!);
+            const letters = convertImageToLetters(settings, width, height, imageData);
 
-            return {
+            letterFrames.push({
                 delay: frame.delay,
                 letters
-            };
-        }));
+            });
+        }
 
         return letterFrames;
     }

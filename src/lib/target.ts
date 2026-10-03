@@ -37,30 +37,53 @@ export const convertImageToLetters = (
   return letters;
 };
 
-export const frameToImage = (canvas: HTMLCanvasElement, frame: ParsedFrame): Promise<HTMLImageElement> =>
-  new Promise((resolve, reject) => {
-    const ctx = canvas.getContext("2d", { willReadFrequently: true });
-    const prevImageData = ctx!.getImageData(frame.dims.left, frame.dims.top, frame.dims.width, frame.dims.height);
+export const createGifFrameComposer = (canvas: HTMLCanvasElement) => {
+  const context = canvas.getContext("2d", { willReadFrequently: true })!;
 
-    for (let i = 3; i < frame.patch.length; i += 4) {
-      if (frame.patch[i] !== 0) continue;
+  return (frame: ParsedFrame) => {
+    context.putImageData(
+      new ImageData(frame.patch, frame.dims.width, frame.dims.height),
+      frame.dims.left,
+      frame.dims.top,
+    );
 
-      frame.patch[i - 3] = prevImageData.data[i - 3];
-      frame.patch[i - 2] = prevImageData.data[i - 2];
-      frame.patch[i - 1] = prevImageData.data[i - 1];
-      frame.patch[i] = prevImageData.data[i];
-    }
+    return context.getImageData(0, 0, canvas.width, canvas.height);
+  };
+};
 
-    const imageData = new ImageData(frame.patch, frame.dims.width, frame.dims.height);
+export function prepareFrameData(
+  imageData: ImageData,
+  textSize: Settings['textSize'],
+  scale: Settings['scale'],
+) {
+  if (scale !== "same-size") {
+    return {
+      width: imageData.width,
+      height: imageData.height,
+      imageData: imageData.data,
+    };
+  }
 
-    ctx!.putImageData(imageData, frame.dims.left, frame.dims.top);
+  const sourceCanvas = document.createElement("canvas");
+  const sourceContext = sourceCanvas.getContext("2d")!;
+  sourceCanvas.width = imageData.width;
+  sourceCanvas.height = imageData.height;
+  sourceContext.putImageData(imageData, 0, 0);
 
-    const element = new Image(canvas.width, canvas.height);
+  const scaledWidth = Math.ceil(imageData.width / textSize);
+  const scaledHeight = Math.ceil(imageData.height / textSize);
+  const scaledCanvas = document.createElement("canvas");
+  const scaledContext = scaledCanvas.getContext("2d")!;
+  scaledCanvas.width = scaledWidth;
+  scaledCanvas.height = scaledHeight;
+  scaledContext.drawImage(sourceCanvas, 0, 0, scaledWidth, scaledHeight);
 
-    element.onload = () => resolve(element);
-    element.onerror = () => reject();
-    element.src = canvas.toDataURL();
-  });
+  return {
+    width: scaledWidth,
+    height: scaledHeight,
+    imageData: scaledContext.getImageData(0, 0, scaledWidth, scaledHeight).data,
+  };
+}
 
 export function prepareImageScaledData(element: HTMLImageElement, textSize: Settings['textSize']) {
   const scaledHeight = Math.ceil(element.height / textSize);
