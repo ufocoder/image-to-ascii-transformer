@@ -32,7 +32,10 @@ export default function Editor(props: TargetProps) {
     })();
   });
 
-  const handleReset = () => props.setSettings({ ... defaultSettings });
+  const handleReset = () => {
+    props.setSettings({ ...defaultSettings });
+    props.resetContainer();
+  };
 
   return (
     <div class="flex flex-col">
@@ -41,7 +44,7 @@ export default function Editor(props: TargetProps) {
       </div>
       <div class="flex flex-col md:flex-row gap-x-4 gap-y-4">
         <div class="md:flex-1 ">
-          <Preview resetContainer={props.resetContainer} imageContainer={props.imageContainer} />
+          <Preview resetContainer={handleReset} imageContainer={props.imageContainer} />
         </div>
         <div class="md:grow-0 md:shrink-0 md:basis-60">
           <Settings target={target} settings={props.settings} onReset={handleReset} onChange={props.setSettings} />
