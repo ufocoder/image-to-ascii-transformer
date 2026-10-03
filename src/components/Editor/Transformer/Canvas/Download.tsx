@@ -1,5 +1,6 @@
 import { Accessor, createSignal } from "solid-js";
 import { drawLetters } from "./lib";
+import { encodeGif } from "./gif";
 
 interface DownloadCanvasProps {
   mime: string;
@@ -15,43 +16,65 @@ const ext = {
 }
 
 export default function DownloadCanvas(props: DownloadCanvasProps) {
-  const [href, setHref] = createSignal<string | undefined>('#');
+  const [isPreparing, setIsPreparing] = createSignal(false);
 
-  const handleClick = () => {
+  const downloadBlob = (blob: Blob) => {
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+
+    link.href = url;
+    // @ts-expect-error @TODO: fix mime typings
+    link.download = `image-from-canvas.${ext[props.mime]}`;
+    link.click();
+
+    setTimeout(() => URL.revokeObjectURL(url), 0);
+  };
+
+  const createStaticImage = (frame: LetterFrame) => new Promise<Blob>((resolve, reject) => {
+    const ratio = props.settings.textSize;
+    const height = frame.letters[0].length;
+    const width = frame.letters.length;
+    const canvas = document.createElement("canvas");
+    const context = canvas.getContext("2d")!;
+
+    canvas.height = height * ratio;
+    canvas.width = width * ratio;
+    drawLetters(context, props.settings, frame.letters);
+    canvas.toBlob((blob) => blob ? resolve(blob) : reject(new Error("Unable to create image")), props.mime);
+  });
+
+  const handleClick = async () => {
     const frames = props.frames()
 
     if (!frames || !frames.length) {
       return
     }
-    
-    const frame = frames[0];
-    
-    const ratio = props.settings.textSize;
-    const height = frame.letters[0].length;
-    const width = frame.letters.length;
-    
-    const canvas = document.createElement("canvas");
-    const context = canvas!.getContext("2d");
 
-    canvas.height = height * ratio;
-    canvas.width = width * ratio;
-    
-    drawLetters(context!, props.settings, frame.letters);    
-    setHref(canvas.toDataURL(props.mime));
+    setIsPreparing(true);
+    await new Promise(requestAnimationFrame);
+
+    try {
+      const blob = props.mime === "image/gif"
+        ? encodeGif(frames, props.settings)
+        : await createStaticImage(frames[0]);
+
+      downloadBlob(blob);
+    } finally {
+      setIsPreparing(false);
+    }
   };
 
 
   return (
     <div class="text-center mt-4">
-      <a
-        href={href()}
+      <button
+        type="button"
         onClick={handleClick}
-        // @ts-expect-error @TODO: fix mime typings
-        download={`image-from-canvas.${ext[props.mime]}`}
+        disabled={isPreparing()}
         class="px-3 py-2 text-xs font-medium text-center text-white no-underline bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
       >
-        Download
-      </a>
+        {isPreparing() ? "Preparing..." : "Download"}
+      </button>
     </div>
   );
 }
