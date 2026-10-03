@@ -39,13 +39,18 @@ export const convertImageToLetters = (
 
 export const createGifFrameComposer = (canvas: HTMLCanvasElement) => {
   const context = canvas.getContext("2d", { willReadFrequently: true })!;
+  const patchCanvas = document.createElement("canvas");
+  const patchContext = patchCanvas.getContext("2d")!;
 
   return (frame: ParsedFrame) => {
-    context.putImageData(
+    patchCanvas.width = frame.dims.width;
+    patchCanvas.height = frame.dims.height;
+    patchContext.putImageData(
       new ImageData(frame.patch, frame.dims.width, frame.dims.height),
-      frame.dims.left,
-      frame.dims.top,
+      0,
+      0,
     );
+    context.drawImage(patchCanvas, frame.dims.left, frame.dims.top);
 
     return context.getImageData(0, 0, canvas.width, canvas.height);
   };
