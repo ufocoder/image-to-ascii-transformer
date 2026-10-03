@@ -42,7 +42,21 @@ export const createGifFrameComposer = (canvas: HTMLCanvasElement) => {
   const patchCanvas = document.createElement("canvas");
   const patchContext = patchCanvas.getContext("2d")!;
 
+  let previousFrame: ParsedFrame | undefined;
+  let restoreImageData: ImageData | undefined;
+
   return (frame: ParsedFrame) => {
+    if (previousFrame?.disposalType === 2) {
+      const { left, top, width, height } = previousFrame.dims;
+      context.clearRect(left, top, width, height);
+    } else if (previousFrame?.disposalType === 3 && restoreImageData) {
+      context.putImageData(restoreImageData, 0, 0);
+    }
+
+    restoreImageData = frame.disposalType === 3
+      ? context.getImageData(0, 0, canvas.width, canvas.height)
+      : undefined;
+
     patchCanvas.width = frame.dims.width;
     patchCanvas.height = frame.dims.height;
     patchContext.putImageData(
@@ -51,6 +65,8 @@ export const createGifFrameComposer = (canvas: HTMLCanvasElement) => {
       0,
     );
     context.drawImage(patchCanvas, frame.dims.left, frame.dims.top);
+
+    previousFrame = frame;
 
     return context.getImageData(0, 0, canvas.width, canvas.height);
   };
