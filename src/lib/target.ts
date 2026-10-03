@@ -23,6 +23,12 @@ export const convertImageToLetters = (
       const r = imageData[index + 0];
       const g = imageData[index + 1];
       const b = imageData[index + 2];
+      const alpha = imageData[index + 3];
+
+      if (settings.ignoreTransparentPixels && alpha === 0) {
+        columnOfLetters.push({ letter: " ", color: "transparent" });
+        continue;
+      }
 
       const color = "#" + r.toString(16) + g.toString(16) + b.toString(16);
       const averageColor = (r + g + b) / 3;

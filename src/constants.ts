@@ -9,4 +9,5 @@ export const defaultSettings: Settings = {
   textSize: 8,
   scale: "same-size",
   invertColors: false,
+  ignoreTransparentPixels: true,
 };

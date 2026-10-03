@@ -48,6 +48,11 @@ export const settingsDescriptors: SettingDescriptor[] = [
     when: (target) => target === "canvas",
   },
   {
+    name: "ignoreTransparentPixels",
+    type: "boolean",
+    title: "Ignore transparent pixels",
+  },
+  {
     name: "textColor",
     type: "color",
     title: "Text color",

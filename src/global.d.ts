@@ -19,6 +19,7 @@ interface Settings {
   alphabet: string;
   scale: Scale;
   invertColors: boolean;
+  ignoreTransparentPixels: boolean;
 }
 
 type Target = "canvas" | "text";
