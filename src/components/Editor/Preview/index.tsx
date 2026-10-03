@@ -4,6 +4,7 @@ import Container from "@app/components/Editor/Container";
 interface PreviewProps {
     imageContainer: Accessor<ImageContainer | undefined>;
     frames: Accessor<LetterFrame[]>;
+    target: Accessor<Target>;
     resetContainer: () => void;
 }
   
@@ -12,6 +13,7 @@ export default function Preview(props: PreviewProps) {
 
     createEffect(() => {
         props.frames();
+        props.target();
 
         const container = props.imageContainer();
         const imageElement = image();
