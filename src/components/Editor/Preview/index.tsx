@@ -1,12 +1,29 @@
-import { Accessor } from "solid-js";
+import { Accessor, createEffect, createSignal } from "solid-js";
 import Container from "@app/components/Editor/Container";
 
 interface PreviewProps {
     imageContainer: Accessor<ImageContainer | undefined>;
+    frames: Accessor<LetterFrame[]>;
     resetContainer: () => void;
 }
   
 export default function Preview(props: PreviewProps) {
+    const [image, setImage] = createSignal<HTMLImageElement>();
+
+    createEffect(() => {
+        props.frames();
+
+        const container = props.imageContainer();
+        const imageElement = image();
+
+        if (!imageElement || container?.mime !== "image/gif") {
+            return;
+        }
+
+        imageElement.src = "";
+        imageElement.src = container.element.src;
+    });
+
     return (
         <Container>
             <div>
@@ -14,6 +31,7 @@ export default function Preview(props: PreviewProps) {
                     Original image
                 </h3>
                 <img
+                    ref={setImage}
                     class="mx-auto"
                     src={props.imageContainer()?.element.src} 
                     height={props.imageContainer()?.element.height}

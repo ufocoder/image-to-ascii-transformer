@@ -26,7 +26,8 @@ export default function Editor(props: TargetProps) {
         return;
       }
 
-      const frames = await createFrameLetters(container, props.settings)
+      const settings = { ...props.settings };
+      const frames = await createFrameLetters(container, settings)
 
       setFrames(frames);
     })();
@@ -44,7 +45,7 @@ export default function Editor(props: TargetProps) {
       </div>
       <div class="flex flex-col md:flex-row gap-x-4 gap-y-4">
         <div class="md:flex-1 ">
-          <Preview resetContainer={handleReset} imageContainer={props.imageContainer} />
+          <Preview frames={frames} resetContainer={handleReset} imageContainer={props.imageContainer} />
         </div>
         <div class="md:grow-0 md:shrink-0 md:basis-60">
           <Settings target={target} settings={props.settings} onReset={handleReset} onChange={props.setSettings} />
