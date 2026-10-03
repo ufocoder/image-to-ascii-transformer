@@ -1,36 +1,49 @@
 export function createAnimation(letterFrames: LetterFrame[], onTick: (letters: Letter[][]) => void) {
     const frames = letterFrames;
-    let frameIndex = 0;
-    let playing = false;
-      
-    function renderFrame() {
-        const frame = frames[frameIndex];
-        const start = new Date().getTime();
-        
-        onTick(frame.letters);
-    
-        frameIndex++;
-        if (frameIndex >= frames.length) {
-            frameIndex = 0;
+    const delays = frames.map((frame) => Math.max(10, frame.delay || 100));
+    const duration = delays.reduce((total, delay) => total + delay, 0);
+
+    let animationFrame: number | undefined;
+    let startedAt = 0;
+    let renderedFrameIndex = -1;
+
+    function getFrameIndex(elapsed: number) {
+        let position = elapsed % duration;
+
+        for (let index = 0; index < delays.length; index++) {
+            if (position < delays[index]) {
+                return index;
+            }
+
+            position -= delays[index];
         }
-    
-        const end = new Date().getTime();
-        const diff = end - start;
-    
-        if (playing) {
-            setTimeout(function() {
-                requestAnimationFrame(renderFrame);
-            }, Math.max(0, Math.floor(frame.delay - diff)));
+
+        return frames.length - 1;
+    }
+
+    function renderFrame(now: number) {
+        const frameIndex = getFrameIndex(now - startedAt);
+
+        if (frameIndex !== renderedFrameIndex) {
+            renderedFrameIndex = frameIndex;
+            onTick(frames[frameIndex].letters);
         }
+
+        animationFrame = requestAnimationFrame(renderFrame);
     }
 
     return {
         start: () => {
-            playing = true;
-            renderFrame();
+            startedAt = performance.now();
+            renderedFrameIndex = 0;
+            onTick(frames[0].letters);
+            animationFrame = requestAnimationFrame(renderFrame);
         },
         stop: () => {
-            playing = false;
+            if (animationFrame !== undefined) {
+                cancelAnimationFrame(animationFrame);
+                animationFrame = undefined;
+            }
         }
     }
 }
