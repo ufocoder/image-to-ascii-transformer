@@ -1,4 +1,5 @@
 import { ParsedFrame } from "gifuct-js";
+import { createProcessingCanvas, getProcessingContext, ProcessingCanvas } from "./canvas";
 
 const getAlphabetLetter = (averageColor: number, alphabet: string) => {
   const letterIndex = Math.floor((averageColor / 256) * alphabet.length);
@@ -43,10 +44,10 @@ export const convertImageToLetters = (
   return letters;
 };
 
-export const createGifFrameComposer = (canvas: HTMLCanvasElement) => {
-  const context = canvas.getContext("2d", { willReadFrequently: true })!;
-  const patchCanvas = document.createElement("canvas");
-  const patchContext = patchCanvas.getContext("2d")!;
+export const createGifFrameComposer = (canvas: ProcessingCanvas) => {
+  const context = getProcessingContext(canvas, { willReadFrequently: true })!;
+  const patchCanvas = createProcessingCanvas(1, 1);
+  const patchContext = getProcessingContext(patchCanvas)!;
 
   let previousFrame: ParsedFrame | undefined;
   let restoreImageData: ImageData | undefined;
@@ -91,18 +92,14 @@ export function prepareFrameData(
     };
   }
 
-  const sourceCanvas = document.createElement("canvas");
-  const sourceContext = sourceCanvas.getContext("2d")!;
-  sourceCanvas.width = imageData.width;
-  sourceCanvas.height = imageData.height;
+  const sourceCanvas = createProcessingCanvas(imageData.width, imageData.height);
+  const sourceContext = getProcessingContext(sourceCanvas)!;
   sourceContext.putImageData(imageData, 0, 0);
 
   const scaledWidth = Math.ceil(imageData.width / textSize);
   const scaledHeight = Math.ceil(imageData.height / textSize);
-  const scaledCanvas = document.createElement("canvas");
-  const scaledContext = scaledCanvas.getContext("2d")!;
-  scaledCanvas.width = scaledWidth;
-  scaledCanvas.height = scaledHeight;
+  const scaledCanvas = createProcessingCanvas(scaledWidth, scaledHeight);
+  const scaledContext = getProcessingContext(scaledCanvas)!;
   scaledContext.drawImage(sourceCanvas, 0, 0, scaledWidth, scaledHeight);
 
   return {
@@ -116,12 +113,8 @@ export function prepareImageScaledData(element: HTMLImageElement, textSize: Sett
   const scaledHeight = Math.ceil(element.height / textSize);
   const scaledWidth = Math.ceil(element.width / textSize);
 
-  const canvas = document.createElement("canvas");
-
-  canvas.height = scaledHeight;
-  canvas.width = scaledWidth;
-
-  const ctx = canvas.getContext("2d");
+  const canvas = createProcessingCanvas(scaledWidth, scaledHeight);
+  const ctx = getProcessingContext(canvas);
 
   ctx!.drawImage(element, 0, 0, element.width, element.height, 0, 0, scaledWidth, scaledHeight);
 
@@ -133,14 +126,10 @@ export function prepareImageScaledData(element: HTMLImageElement, textSize: Sett
 }
 
 export const extractImageData = (element: HTMLImageElement): Uint8ClampedArray => {
-  const canvas = document.createElement("canvas");
-  const context = canvas.getContext("2d");
-
   const height = element.height;
   const width = element.width;
-
-  canvas.height = height;
-  canvas.width = width;
+  const canvas = createProcessingCanvas(width, height);
+  const context = getProcessingContext(canvas);
 
   context!.drawImage(element, 0, 0);
 

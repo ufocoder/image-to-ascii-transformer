@@ -1,4 +1,5 @@
 import { GifWriter } from "omggif";
+import { createProcessingCanvas, getProcessingContext } from "@app/lib/canvas";
 import { drawLetters } from "./lib";
 
 const TRANSPARENT_INDEX = 0;
@@ -43,11 +44,8 @@ export const encodeGif = (frames: LetterFrame[], settings: Settings) => {
   const ratio = settings.textSize;
   const width = frames[0].letters.length * ratio;
   const height = frames[0].letters[0].length * ratio;
-  const canvas = document.createElement("canvas");
-  const context = canvas.getContext("2d", { willReadFrequently: true })!;
-
-  canvas.width = width;
-  canvas.height = height;
+  const canvas = createProcessingCanvas(width, height);
+  const context = getProcessingContext(canvas, { willReadFrequently: true })!;
 
   const framePixels = width * height;
   const buffer = new Uint8Array((framePixels * frames.length * 2) + (frames.length * 1024) + 4096);

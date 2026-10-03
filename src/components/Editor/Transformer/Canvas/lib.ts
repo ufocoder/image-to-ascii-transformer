@@ -1,4 +1,6 @@
-export const drawLetters = (context: CanvasRenderingContext2D, settings: Settings, letters: Letter[][]) => {
+import { ProcessingContext } from "@app/lib/canvas";
+
+export const drawLetters = (context: ProcessingContext, settings: Settings, letters: Letter[][]) => {
   // fill background
   const ratio = settings.textSize;
   const height = letters[0].length;

@@ -1,4 +1,5 @@
 import { decompressFrames, parseGIF } from "gifuct-js";
+import { createProcessingCanvas } from "@app/lib/canvas";
 import { convertImageToLetters, createGifFrameComposer, prepareFrameData, prepareImageLettersData, prepareImageScaledData } from "@app/lib/target";
 
 export async function createFrameLetters(container: ImageContainer, settings: Settings): Promise<LetterFrame[]> {
@@ -9,9 +10,7 @@ export async function createFrameLetters(container: ImageContainer, settings: Se
         const gif = parseGIF(container.buffer);
         const frames = decompressFrames(gif, true);
 
-        const canvas = document.createElement('canvas');
-        canvas.width = gif.lsd.width;
-        canvas.height = gif.lsd.height;
+        const canvas = createProcessingCanvas(gif.lsd.width, gif.lsd.height);
 
         const composeFrame = createGifFrameComposer(canvas);
         const letterFrames: LetterFrame[] = [];

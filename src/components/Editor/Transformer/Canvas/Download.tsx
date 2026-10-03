@@ -1,4 +1,5 @@
 import { Accessor, createSignal } from "solid-js";
+import { createProcessingCanvas, getProcessingContext, processingCanvasToBlob } from "@app/lib/canvas";
 import { drawLetters } from "./lib";
 import { encodeGif } from "./gif";
 
@@ -30,18 +31,17 @@ export default function DownloadCanvas(props: DownloadCanvasProps) {
     setTimeout(() => URL.revokeObjectURL(url), 0);
   };
 
-  const createStaticImage = (frame: LetterFrame) => new Promise<Blob>((resolve, reject) => {
+  const createStaticImage = (frame: LetterFrame) => {
     const ratio = props.settings.textSize;
     const height = frame.letters[0].length;
     const width = frame.letters.length;
-    const canvas = document.createElement("canvas");
-    const context = canvas.getContext("2d")!;
+    const canvas = createProcessingCanvas(width * ratio, height * ratio);
+    const context = getProcessingContext(canvas)!;
 
-    canvas.height = height * ratio;
-    canvas.width = width * ratio;
     drawLetters(context, props.settings, frame.letters);
-    canvas.toBlob((blob) => blob ? resolve(blob) : reject(new Error("Unable to create image")), props.mime);
-  });
+
+    return processingCanvasToBlob(canvas, props.mime);
+  };
 
   const handleClick = async () => {
     const frames = props.frames()
