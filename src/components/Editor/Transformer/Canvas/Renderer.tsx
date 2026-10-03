@@ -72,7 +72,7 @@ export default function Renderer(props: RendererProps) {
       <Show when={letters().length}>
         <p class="text-center my-2">
             size is 
-            <span class="bg-blue-100 text-blue-800 text-xs font-medium px-1.5 py-0.5">${calculateLetters()}</span>
+            <span class="bg-blue-100 text-blue-800 text-xs font-medium px-1.5 py-0.5">{calculateLetters()}</span>
             {' '}pixels
         </p>
       </Show>
