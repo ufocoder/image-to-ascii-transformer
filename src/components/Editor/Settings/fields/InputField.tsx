@@ -21,7 +21,8 @@ export default function InputSettingField(props: InputSettingFieldProps) {
         onInput={(e) => props.onChange(props.name, (e.target as HTMLInputElement).value)}
         onChange={(e) => props.onChange(props.name, (e.target as HTMLInputElement).value)}
         value={props.settings[props.name] as string}
-        class=" block w-full px-2 h-8 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500"
+        class="block w-full h-8 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500"
+        classList={{ "px-2": props.type !== "color" }}
       />
     </div>
   );
