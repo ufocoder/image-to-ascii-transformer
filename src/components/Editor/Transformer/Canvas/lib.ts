@@ -15,7 +15,17 @@ export const drawLetters = (context: CanvasRenderingContext2D, settings: Setting
   // draw letters
   for (let x = 0; x < width; x++) {
     for (let y = 0; y < height; y++) {
-      const { letter, color } = letters[x][y];
+      const { letter, color, transparent } = letters[x][y];
+
+      if (settings.ignoreTransparentPixels && transparent) {
+        context.clearRect(
+          x * settings.textSize,
+          y * settings.textSize,
+          settings.textSize,
+          settings.textSize,
+        );
+        continue;
+      }
 
       context.fillStyle = settings.colored ? color : settings.textColor;
       context.fillText(letter, x * settings.textSize, y * settings.textSize, settings.textSize);

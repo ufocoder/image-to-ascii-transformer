@@ -26,7 +26,7 @@ export const convertImageToLetters = (
       const alpha = imageData[index + 3];
 
       if (settings.ignoreTransparentPixels && alpha === 0) {
-        columnOfLetters.push({ letter: " ", color: "transparent" });
+        columnOfLetters.push({ letter: " ", color: "transparent", transparent: true });
         continue;
       }
 
@@ -34,7 +34,7 @@ export const convertImageToLetters = (
       const averageColor = (r + g + b) / 3;
       const letter = getAlphabetLetter(averageColor, settings.alphabet);
 
-      columnOfLetters.push({ letter, color });
+      columnOfLetters.push({ letter, color, transparent: false });
     }
 
     letters.push(columnOfLetters);

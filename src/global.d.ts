@@ -27,6 +27,7 @@ type Target = "canvas" | "text";
 interface Letter {
   letter: string;
   color: string;
+  transparent: boolean;
 }
 
 interface LetterFrame {
